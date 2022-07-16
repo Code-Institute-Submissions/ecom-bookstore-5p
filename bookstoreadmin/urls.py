@@ -10,5 +10,5 @@ urlpatterns = [
     path('genres/', bsav.list_genres.as_view(), name='list_genres_admin'),
     path('genres/create/', bsav.create_genre.as_view(), name='create_genre'),
     path('genres/modify/<int:genre_id>', bsav.modify_genre.as_view(), name='modify_genre'),
-    path('genres/delete/<int:genre_id>', bsav.delete_genre(), name='delete_genre'),
+    path('genres/delete/<int:genre_id>', bsav.delete_genre, name='delete_genre'),
 ]

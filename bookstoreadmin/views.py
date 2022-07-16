@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import permission_required
 import books.models as bkm
+import bookstoreadmin.forms as forms
 
 PREFIX = 'bookstoreadmin/'
 #region helpers
@@ -41,13 +42,35 @@ class list_books(PermissionRequiredMixin, View):
 
 
 class create_book(PermissionRequiredMixin, View):
-    permission_required = 'books.create_book'
+    permission_required = 'books.add_book'
 
     def get(self, request):
-        pass
+        form = forms.BookForm
+        return render(
+            request,
+            PREFIX+'books/form.html',
+            {
+                'form': form
+            }
+        )
 
     def post(self, request):
-        pass
+        form = forms.BookForm(request.POST)
+        if form.is_valid():
+            data = bkm.Book()
+
+            data.name = form.cleaned_data['name']
+            data.description = form.cleaned_data['description']
+            data.author = form.cleaned_data['author']
+            data.pages = form.cleaned_data['pages']
+            data.price = form.cleaned_data['price']
+            data.owner = form.cleaned_data['owner']
+            data.stock = form.cleaned_data['stock']
+            data.discountPercent = form.cleaned_data['discountPercent']
+            data.available = form.cleaned_data['available']
+
+            data.save()
+        return redirect('list_books_admin')
 
 
 class modify_book(PermissionRequiredMixin, View):
@@ -71,6 +94,7 @@ class list_genres(PermissionRequiredMixin, View):
     def get(self, request):
         pass
 
+
 class create_genre(PermissionRequiredMixin, View):
     permission_required = 'books.create_genre'
 
@@ -80,6 +104,7 @@ class create_genre(PermissionRequiredMixin, View):
     def post(self, request):
         pass
 
+
 class modify_genre(PermissionRequiredMixin, View):
     permission_required = 'books.change_genre'
 
@@ -88,6 +113,7 @@ class modify_genre(PermissionRequiredMixin, View):
 
     def get(self, request):
         pass
+
 
 @permission_required('books.delete_genre')
 def delete_genre(request, genre_id):
