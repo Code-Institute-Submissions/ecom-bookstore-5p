@@ -64,6 +64,32 @@ def delete_book(request, book_id):
     pass
 #endregion
 
-
+#region genres
 class list_genres(PermissionRequiredMixin, View):
+    permission_required = 'books.view_genre'
+
+    def get(self, request):
+        pass
+
+class create_genre(PermissionRequiredMixin, View):
+    permission_required = 'books.create_genre'
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
+
+class modify_genre(PermissionRequiredMixin, View):
+    permission_required = 'books.change_genre'
+
+    def get(self, request):
+        pass
+
+    def get(self, request):
+        pass
+
+@permission_required('books.delete_genre')
+def delete_genre(request, genre_id):
     pass
+#endregion
