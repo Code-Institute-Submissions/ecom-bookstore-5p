@@ -108,7 +108,9 @@ class modify_book(PermissionRequiredMixin, View):
 
 @permission_required('books.delete_book')
 def delete_book(request, book_id):
-    pass
+    data = bkm.Book.objects.get(id=book_id)
+    data.delete()
+    return redirect('list_books_admin')
 #endregion
 
 #region genres
