@@ -1,0 +1,37 @@
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Author</th>
+            <th>Pages</th>
+            <th>Price</th>
+            <th>Owner</th>
+            <th>Discount Percent</th>
+            <th>Available</th>
+            <th>Stock</th>
+            <th>Modify</th>
+            <th>Delete</th>          
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for b in obj %}
+        <tr>
+            <td>{{b.name}}</td>
+            <td>{{b.description}}</td>
+            <td>{{b.author}}</td>
+            <td>{{b.pages}}</td>
+            <td>{{b.price}}</td>
+            <td>{{b.owner}}</td>
+            <td>{{b.discountPercent}}</td>
+            <td>{{b.available}}</td>
+            <td>{{b.stock}}</td>
+            <td><a href="{% url 'modify_book' b.id%}">Modify</a></td>
+            <td><a href="{% url 'delete_book' b.id%}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'modify_book' %}">Create</a>
