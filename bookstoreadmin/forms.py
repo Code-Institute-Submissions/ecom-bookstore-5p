@@ -8,3 +8,8 @@ class BookForm(forms.ModelForm):
         model = bkm.Book
         fields = '__all__'
 
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = bkm.Genre
+        fields = '__all__'

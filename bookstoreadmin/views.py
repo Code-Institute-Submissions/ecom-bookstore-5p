@@ -37,9 +37,6 @@ class list_books(PermissionRequiredMixin, View):
             }
         )
 
-    def post(self, request):
-        pass
-
 
 class create_book(PermissionRequiredMixin, View):
     permission_required = 'books.add_book'
@@ -118,30 +115,65 @@ class list_genres(PermissionRequiredMixin, View):
     permission_required = 'books.view_genre'
 
     def get(self, request):
-        pass
+        data = bkm.Genre.objects.all()
+        return render(
+            request,
+            PREFIX+'genres/genres.html',
+            {
+                'data': data
+            }
+        )
 
 
 class create_genre(PermissionRequiredMixin, View):
-    permission_required = 'books.create_genre'
+    permission_required = 'books.add_genre'
 
     def get(self, request):
-        pass
+        form = forms.GenreForm()
+        return render(
+            request,
+            PREFIX+'genres/form.html',
+            {
+                'form': form
+            }
+        )
 
     def post(self, request):
-        pass
+        form = forms.GenreForm(request.POST)
+        if form.is_valid():
+            data = bkm.Genre()
+            data.name = form.cleaned_data['name']
+            data.save()
+        return redirect('list_genres_admin')
 
 
 class modify_genre(PermissionRequiredMixin, View):
     permission_required = 'books.change_genre'
 
-    def get(self, request):
-        pass
+    def get(self, request, genre_id):
+        data = bkm.Genre.objects.get(id=genre_id)
+        form = forms.GenreForm(instance=data)
 
-    def get(self, request):
-        pass
+        return render(
+            request,
+            PREFIX+'genres/form.html',
+            {
+                'form': form
+            }
+        )
+
+    def post(self, request, genre_id):
+        form = forms.GenreForm(request.POST)
+        if form.is_valid():
+            data = bkm.Genre.objects.get(id=genre_id)
+            data.name = form.cleaned_data['name']
+            data.save()
+        return redirect('list_genres_admin')
 
 
 @permission_required('books.delete_genre')
 def delete_genre(request, genre_id):
-    pass
+    data = bkm.Genre.objects.get(id=genre_id)
+    data.delete()
+    return redirect('list_genres_admin')
 #endregion
