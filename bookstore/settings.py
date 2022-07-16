@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'basket',
     'checkout',
     'postoffice',
+    'bookstoreadmin',
 ]
 
 MIDDLEWARE = [

@@ -4,4 +4,4 @@ from django.views import View
 
 class Index(View):
     def get(self, request):
-        return render(request, 'books/index.html')
+        return render(request, 'bookstoreadmin/index.html')
