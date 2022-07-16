@@ -77,10 +77,34 @@ class modify_book(PermissionRequiredMixin, View):
     permission_required = 'books.change_book'
 
     def get(self, request, book_id):
-        return render(request, PREFIX+'modify.html')
+        data = bkm.Book.objects.get(id=book_id)
+        form = forms.BookForm(instance=data)
+
+        return render(
+            request,
+            PREFIX+'books/form.html',
+            {
+                'form': form
+            }
+        )
 
     def post(self, request, book_id):
-        return redirect('admin_index')
+        form = forms.BookForm(request.POST)
+        if form.is_valid():
+            data = bkm.Book.objects.get(id=book_id)
+
+            data.name = form.cleaned_data['name']
+            data.description = form.cleaned_data['description']
+            data.author = form.cleaned_data['author']
+            data.pages = form.cleaned_data['pages']
+            data.price = form.cleaned_data['price']
+            data.owner = form.cleaned_data['owner']
+            data.stock = form.cleaned_data['stock']
+            data.discountPercent = form.cleaned_data['discountPercent']
+            data.available = form.cleaned_data['available']
+
+            data.save()
+        return redirect('list_books_admin')
 
 @permission_required('books.delete_book')
 def delete_book(request, book_id):

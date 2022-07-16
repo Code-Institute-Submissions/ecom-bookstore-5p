@@ -1,6 +1,7 @@
 <table>
     <thead>
         <tr>
+            <th>ID</th>
             <th>Name</th>
             <th>Description</th>
             <th>Author</th>
@@ -18,6 +19,7 @@
     <tbody>
         {% for b in obj %}
         <tr>
+            <td>{{b.id}}</td>
             <td>{{b.name}}</td>
             <td>{{b.description}}</td>
             <td>{{b.author}}</td>
