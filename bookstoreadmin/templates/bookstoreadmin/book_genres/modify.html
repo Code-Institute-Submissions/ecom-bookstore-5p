@@ -1,0 +1,76 @@
+<script
+src="https://code.jquery.com/jquery-3.6.0.min.js"
+integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+crossorigin="anonymous"></script>
+
+{% csrf_token %}
+
+<h2>{{obj.0.book.name}}</h2>
+<table id="genre-table">
+    <thead>
+        <tr>
+            <th>Genre</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for g in obj %}
+            <tr id="row-{{forloop.counter0}}" class="genre-row">
+                <td>{{g.genre.name}}</td>
+                <td><button onclick="removeGenre('row-{{forloop.counter0}}')">Remove</button></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<select id="genre-select">
+    {% for g in genres %}
+        <option value="{{g.id}}">{{g.name}}</option>
+    {% endfor %}
+</select>
+
+<button onclick="addGenre()">Add Genre</button>
+<button onclick="submit()">Submit</button>
+
+<script>
+    let num = {{ obj|length }};
+    function addGenre(){
+        $('#genre-table tr:last').after(
+            ['<tr id="row-'+num+'"',
+              'class="genre-row">',
+              '<td id="' + $('#genre-select').val()+ '">', $("#genre-select option:selected").text() ,'</td>',
+              '<td><button onclick="removeGenre(', "'row-"+num+ "')" +'"' + ">Remove</button></td>" ,
+              '</tr>'].join(' ')
+        );
+        num = num + 1;
+    }
+
+    function removeGenre(id){
+        $('#'+id).remove();
+    }
+
+    function submit(){
+        data = "";
+        table_rows = $("tbody tr"); 
+
+        for (let i = 0; i < table_rows.length; i++) {
+            let val = table_rows[i].cells[0].innerText;
+            if(!data.includes(val)){
+                data += val + "|"
+            }
+        }
+
+        data = data.substring(0, data.length - 1);
+
+        $.ajax({
+            type: "POST",
+            url: "/bookstoreadmin/books/modify_book_genres/{{book_id}}",
+            data:{ data:data },
+            headers:{
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            complete: window.location.replace("/bookstoreadmin/")
+        });
+    }
+</script>

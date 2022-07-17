@@ -28,7 +28,10 @@ class list_books(PermissionRequiredMixin, View):
     permission_required = 'books.view_book'
 
     def get(self, request):
-        obj = bkm.Book.objects.all()
+        data = bkm.Book.objects.all()
+        obj = []
+        for d in data:
+            obj.append((d, bkm.BookGenre.objects.filter(book=d.id)))
         return render(
             request,
             PREFIX+'books/books.html',
@@ -103,11 +106,61 @@ class modify_book(PermissionRequiredMixin, View):
             data.save()
         return redirect('list_books_admin')
 
+
 @permission_required('books.delete_book')
 def delete_book(request, book_id):
     data = bkm.Book.objects.get(id=book_id)
     data.delete()
     return redirect('list_books_admin')
+
+
+class modify_book_genres(PermissionRequiredMixin, View):
+    permission_required = (
+        'books.add_bookgenre',
+        'books.change_bookgenre',
+        'books.delete_bookgenre'
+    )
+
+    def get(self, request, book_id):
+        obj = bkm.BookGenre.objects.filter(book=book_id)
+        genres = bkm.Genre.objects.all()
+        return render(
+            request,
+            PREFIX+'book_genres/modify.html',
+            {
+                'obj': obj,
+                'genres': genres,
+                'book_id': book_id
+            }
+        )
+
+    def post(self, request, book_id):
+        _book = bkm.Book.objects.get(id=book_id)
+
+        data = request.POST.get('data').split('|')
+        genres = bkm.Genre.objects.all()
+        db_data = list(
+            bkm
+                .BookGenre
+                .objects
+                .filter(book=book_id)
+                .values_list('genre__name', flat=True)
+        )
+
+        for _name in data:
+            if _name not in db_data:
+                model = bkm.BookGenre()
+                model.book = _book
+                model.genre = genres.get(name=_name)
+                model.save()
+            
+        for name in db_data:
+            if name not in data:
+                value = bkm.BookGenre.objects.get(book=_book, genre__name=name)
+                value.delete()
+            
+
+        return redirect('admin_index')
 #endregion
 
 #region genres
@@ -176,4 +229,8 @@ def delete_genre(request, genre_id):
     data = bkm.Genre.objects.get(id=genre_id)
     data.delete()
     return redirect('list_genres_admin')
+#endregion
+
+#region book genres
+
 #endregion

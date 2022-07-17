@@ -11,6 +11,8 @@
             <th>Discount Percent</th>
             <th>Available</th>
             <th>Stock</th>
+            <th>Genres</th>
+            <th>Modify Genres</th>
             <th>Modify</th>
             <th>Delete</th>
         </tr>
@@ -19,18 +21,24 @@
     <tbody>
         {% for b in obj %}
         <tr>
-            <td>{{b.id}}</td>
-            <td>{{b.name}}</td>
-            <td>{{b.description}}</td>
-            <td>{{b.author}}</td>
-            <td>{{b.pages}}</td>
-            <td>{{b.price}}</td>
-            <td>{{b.owner}}</td>
-            <td>{{b.discountPercent}}</td>
-            <td>{{b.available}}</td>
-            <td>{{b.stock}}</td>
-            <td><a href="{% url 'modify_book' b.id%}">Modify</a></td>
-            <td><a href="{% url 'delete_book' b.id%}">Delete</a></td>
+            <td>{{b.0.id}}</td>
+            <td>{{b.0.name}}</td>
+            <td>{{b.0.description}}</td>
+            <td>{{b.0.author}}</td>
+            <td>{{b.0.pages}}</td>
+            <td>{{b.0.price}}</td>
+            <td>{{b.0.owner}}</td>
+            <td>{{b.0.discountPercent}}</td>
+            <td>{{b.0.available}}</td>
+            <td>{{b.0.stock}}</td>
+            <td>
+                {% for g in b.1 %}
+                {{ g.genre.name }},
+                {% endfor %}
+            </td>
+            <td><a href="{% url 'modify_book_genres' b.0.id %}">Modify Book Genres</a></td>
+            <td><a href="{% url 'modify_book' b.0.id%}">Modify</a></td>
+            <td><a href="{% url 'delete_book' b.0.id%}">Delete</a></td>
         </tr>
         {% endfor %}
     </tbody>
