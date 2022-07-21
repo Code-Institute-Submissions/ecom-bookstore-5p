@@ -43,4 +43,7 @@ class Remove(View):
 
 class Clear(View):
     def get(self, request):
+        if request.session.get('basket', False):
+            del request.session['basket']
+            request.session.modified = True
         return redirect('basket_index')

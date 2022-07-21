@@ -20,4 +20,9 @@ urlpatterns = [
         bv.Remove.as_view(),
         name='basket_remove'
     ),
+    path(
+        'clear',
+        bv.Clear.as_view(),
+        name='basket_clear'
+    ),
 ]
