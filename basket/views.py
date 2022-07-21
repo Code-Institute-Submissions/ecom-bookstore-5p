@@ -4,9 +4,18 @@ from django.views import View
 # Basket data stored as:
 #   {'book_id': quantity(int)}
 
+
 class Index(View):
     def get(self, request):
-        return render(request, 'basket/index.html')
+        if request.session.get('basket', False):
+            print(request.session['basket'])
+        return render(
+            request,
+            'basket/index.html',
+            {
+                'basket': request.session['basket']
+            }
+        )
 
 
 class Add(View):
