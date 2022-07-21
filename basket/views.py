@@ -18,8 +18,18 @@ class Index(View):
         )
 
 
-class Add(View):
-    def get(self, request):
+class Modify(View):
+    def get(self, request, id, quantity):
+        if request.session.get('basket', False):
+            if str(id) in request.session['basket']:
+                request.session['basket'][str(id)] += quantity
+            else:
+                request.session['basket'][str(id)] = quantity
+        else:
+            request.session['basket'] = {}
+            request.session['basket'][str(id)] = quantity
+
+        request.session.modified = True
         return redirect('basket_index')
 
 
