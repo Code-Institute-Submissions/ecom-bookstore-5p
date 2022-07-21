@@ -16,7 +16,7 @@ urlpatterns = [
         name='basket_modify'
     ),
     path(
-        'remove/',
+        'remove/<int:id>',
         bv.Remove.as_view(),
         name='basket_remove'
     ),
