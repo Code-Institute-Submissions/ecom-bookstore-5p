@@ -1,10 +1,28 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, User, Permission
 from django.contrib.auth.decorators import permission_required
 import books.models as bkm
 import bookstoreadmin.forms as forms
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
+
+
+if not Group.objects.filter(name='site_admin').exists():
+    new_group, created = Group.objects.get_or_create(name='site_admin')
+    perms = Permission.objects.filter(
+            Q(content_type__app_label='books') |
+            Q(content_type__app_label='checkout')
+        )
+    for p in perms:
+        permission = Permission.objects.get(
+            codename=p.codename,
+            name=p.name,
+            content_type=p.content_type
+        )
+        new_group.permissions.add(permission)
+
 
 PREFIX = 'bookstoreadmin/'
 #region helpers
@@ -13,14 +31,16 @@ def check_admin(logged_user):
             user=logged_user,
             name='site_admin'
         ).exists()
+#endregion
 
 
-class index(View):
+class index(PermissionRequiredMixin, View):
+    permission_required = 'book'
+
     def get(self, request):
         if check_admin(request.user):
             return render(request, PREFIX+'index.html')
         return redirect('books_index')
-#endregion
 
 
 #region books
@@ -229,8 +249,4 @@ def delete_genre(request, genre_id):
     data = bkm.Genre.objects.get(id=genre_id)
     data.delete()
     return redirect('list_genres_admin')
-#endregion
-
-#region book genres
-
 #endregion
