@@ -2,14 +2,38 @@
 {% load static %}
 
 {% block content %}
-<fieldset class="px-3">
-    <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
-    <!-- A Stripe card element will go here -->
-    <div class="mb-3" id="card-element"></div>
 
-    <!-- Used to display form errors -->
-    <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-</fieldset>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+
+    {% for row in template_basket %}
+    <tr>
+        <td>{{row.0}}</td>
+        <td>{{row.1}}</td>
+        <td>{{row.2}}</td>
+        <td>{{row.3}}</td>
+        <td>{{row.4}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<form>
+    <fieldset class="px-3">
+        <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+        <!-- A Stripe card element will go here -->
+        <div class="mb-3" id="card-element"></div>
+
+        <!-- Used to display form errors -->
+        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+    </fieldset>    
+</form>
+
 {% endblock %}
 
 {% block postloadjs %}
