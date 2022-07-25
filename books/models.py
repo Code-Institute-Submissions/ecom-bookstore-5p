@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from books.custom_models import IntegerRangeField
 
 
 class Book(models.Model):
@@ -18,7 +19,7 @@ class Book(models.Model):
     # image
     stock = models.IntegerField()
     # isOnSale probably not needed as, if below is not empty then its on sale
-    discountPercent = models.IntegerField()
+    discountPercent = IntegerRangeField(min_value=0, max_value=100)
     available = models.BooleanField(default=True)
 
 
