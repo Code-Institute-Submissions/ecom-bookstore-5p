@@ -12,10 +12,11 @@ class Order(models.Model):
     second_name = models.CharField(max_length=30, null=True)
     email = models.EmailField(blank=False, null=True)
     country = CountryField(null=True)
+    postcode = models.CharField(max_length=10, null=True)
+    address_line_one = models.CharField(max_length=200, null=True)
+    town_city = models.CharField(max_length=200, null=True)
 
     payment_intent = models.CharField(max_length=500, null=True)
-    success = models.BooleanField(default=False)
-
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
