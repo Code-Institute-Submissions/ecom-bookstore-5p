@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<form id="payment-form" enctype="multipart/form-data">
+    <div id="payment-element">
+        <!-- Elements will create form elements here -->
+    </div>
+
+    <div id="error-message">
+
+    </div>
+
+    <button id="submit">Submit</button>
+</form>
+
+
+{% endblock %}
+
+{% block postloadjs %}
+    <script src="https://js.stripe.com/v3/"></script>
+    {{ block.super }}
+    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
+    {{ client_secret|json_script:"id_client_secret" }}
+    <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+{% endblock %}
