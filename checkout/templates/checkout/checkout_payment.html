@@ -4,6 +4,7 @@
 {% block content %}
 
 <form id="payment-form" enctype="multipart/form-data">
+    {% csrf_token %}
     <div id="payment-element">
         <!-- Elements will create form elements here -->
     </div>

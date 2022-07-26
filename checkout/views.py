@@ -14,7 +14,6 @@ class checkout(View):
     def get(self, request):
         if request.session.get('basket', False):
             basket = request.session['basket']
-            total = 0
 
             template_basket = []
 
@@ -22,7 +21,6 @@ class checkout(View):
             for bookid, quantity in basket.items():
                 book = bkm.Book.objects.get(id=bookid)
                 price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
-                total += price
 
                 template_basket.append(
                     [
@@ -33,20 +31,9 @@ class checkout(View):
                         format(price, '.2f')
                     ]
                 )
-           
-            om = chm.Order()
-            om.user = request.user
+        
 
-            om.save()
-            for bookid, quantity in basket.items():
-                basket_item = chm.OrderItem()
-                basket_item.order = om
-                basket_item.book = bkm.Book.objects.get(id=bookid)
-                basket_item.quantity = quantity
-                basket_item.priceOnPurchase = basket_item.book.price
-                basket_item.save()
-
-            form = forms.OrderForm({'order_id':om.id})
+            form = forms.OrderForm({'order_id':0})
             # form.order_id = om.id
             return render(
                 request,
@@ -59,19 +46,18 @@ class checkout(View):
 
         else:
             basket = {}
-        # return 'you've got nothing in your basket!'
-        pass
+        # TODO: return 'you've got nothing in your basket!'
 
     def post(self, request):
         form = forms.OrderForm(request.POST)
-        print(form.is_valid())
         if form.is_valid():
-            data = chm.Order.objects.get(id=form.cleaned_data['order_id'])
+            data = chm.Order()
+            data.user = request.user
 
             data.first_name = form.cleaned_data['first_name']
             data.second_name = form.cleaned_data['second_name']
             data.email = form.cleaned_data['email']
-            # data.country = form.cleaned_data['country']
+            data.country = form.cleaned_data['country']
             data.postcode = form.cleaned_data['postcode']
             data.address_line_one = form.cleaned_data['address_line_one']
             data.town_city = form.cleaned_data['town_city']
@@ -80,11 +66,12 @@ class checkout(View):
 
             return redirect(
                 'checkout_payment',
-                order_id=form.cleaned_data['order_id']
+                order_id=data.id
             )
-        # form failed
+        # TODO: return error
         print(form.errors)
         pass
+
 
 class checkout_payment(View):
     def get(self, request, order_id):
@@ -92,24 +79,11 @@ class checkout_payment(View):
             basket = request.session['basket']
             total = 0
 
-            template_basket = []
-
-            # Something wierd with price calc, idk why
             for bookid, quantity in basket.items():
                 book = bkm.Book.objects.get(id=bookid)
                 price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
                 total += price
 
-                template_basket.append(
-                    [
-                        book.name,
-                        book.price,
-                        str(book.discountPercent) + '%',
-                        quantity,
-                        format(price, '.2f')
-                    ]
-                )
-           
             stripe_total = round(total * 100)
             stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
             intent = stripe.PaymentIntent.create(
@@ -123,6 +97,7 @@ class checkout_payment(View):
 
         else:
             basket = {}
+            # TODO: return error
 
         return render(
             request,
@@ -130,7 +105,42 @@ class checkout_payment(View):
             {
                 'stripe_public_key': os.environ.get('STRIPE_PUBLIC_KEY'),
                 'client_secret': intent.client_secret,
-                'template_basket': template_basket,
-                'stripe_total': stripe_total
+                'stripe_total': stripe_total,
+                'order_id': order_id
             }
         )
+
+
+class success(View):
+    def get(self, request):
+        basket = request.session['basket']
+        om = chm.Order.objects.get(payment_intent=request.GET.get('payment_intent'))
+
+        for bookid, quantity in basket.items():
+            basket_item = chm.OrderItem()
+            basket_item.order = om
+            basket_item.book = bkm.Book.objects.get(id=bookid)
+            basket_item.quantity = quantity
+            basket_item.priceOnPurchase = basket_item.book.price
+            basket_item.save()
+        return render(request, 'checkout/success.html')
+
+
+class orders(View):
+    def get(self, request):
+        stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
+
+        orders = chm.Order.objects.filter(user=request.user)
+        finished_orders = []
+        for o in orders:
+            pi = stripe.PaymentIntent.retrieve(o.payment_intent)
+            if pi['status'] != 'succeeded':
+                continue
+            finished_orders.append(o)
+
+        template_data = []
+        for fo in finished_orders:
+            new = [fo.id]
+            new.append(list(chm.OrderItem.objects.filter(order=fo)))
+
+            
