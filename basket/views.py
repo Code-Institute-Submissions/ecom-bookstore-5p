@@ -5,7 +5,7 @@ from django.views import View
 #   {'book_id': quantity(int)}
 
 
-class Index(View):
+class index(View):
     def get(self, request):
         if request.session.get('basket', False):
             print(request.session['basket'])
@@ -18,7 +18,7 @@ class Index(View):
         )
 
 
-class Modify(View):
+class modify(View):
     def get(self, request, id, quantity):
         if request.session.get('basket', False):
             if str(id) in request.session['basket']:
@@ -33,7 +33,7 @@ class Modify(View):
         return redirect('basket_index')
 
 
-class Remove(View):
+class remove(View):
     def get(self, request, id):
         if str(id) in request.session['basket']:
             del request.session['basket'][str(id)]
@@ -41,7 +41,7 @@ class Remove(View):
         return redirect('basket_index')
 
 
-class Clear(View):
+class clear(View):
     def get(self, request):
         if request.session.get('basket', False):
             del request.session['basket']

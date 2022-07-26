@@ -7,22 +7,22 @@ register_converter(bcc.NegativeIntConverter, 'negint')
 urlpatterns = [
     path(
         '',
-        bv.Index.as_view(),
+        bv.index.as_view(),
         name='basket_index'
     ),
     path(
         'modify/<int:id>/<negint:quantity>',
-        bv.Modify.as_view(),
+        bv.modify.as_view(),
         name='basket_modify'
     ),
     path(
         'remove/<int:id>',
-        bv.Remove.as_view(),
+        bv.remove.as_view(),
         name='basket_remove'
     ),
     path(
         'clear',
-        bv.Clear.as_view(),
+        bv.clear.as_view(),
         name='basket_clear'
     ),
 ]
