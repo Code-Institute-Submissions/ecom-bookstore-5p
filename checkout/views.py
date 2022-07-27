@@ -145,7 +145,7 @@ class success(View):
 
         for bookid, quantity in basket.items():
             book = bkm.Book.objects.get(id=bookid)
-            book.quantity - quantity
+            book.stock -= quantity
             book.save()
 
             basket_item = chm.OrderItem()
