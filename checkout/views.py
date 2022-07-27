@@ -18,20 +18,34 @@ class checkout(View):
             template_basket = []
 
             # Something wierd with price calc, idk why
+            status = True
             for bookid, quantity in basket.items():
                 book = bkm.Book.objects.get(id=bookid)
-                price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
+                if book.stock == 0 or not book.available:
+                    status = False
+                else:
+                    status = True
 
+                price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
                 template_basket.append(
                     [
                         book.name,
                         book.price,
                         str(book.discountPercent) + '%',
                         quantity,
-                        format(price, '.2f')
+                        format(price, '.2f'),
+                        status
                     ]
                 )
         
+            if len([h for h in template_basket if not h[5]]) == len(template_basket):
+                return render(
+                    request,
+                    'checkout/checkout.html',
+                    {
+                        'template_basket': []
+                    }
+                )   
 
             form = forms.OrderForm({'order_id':0})
             # form.order_id = om.id
@@ -113,6 +127,8 @@ class checkout_payment(View):
 
 class success(View):
     def get(self, request):
+        # TODO: need to reduce amount of stock on purchase
+
         basket = request.session['basket']
         om = chm.Order.objects.get(payment_intent=request.GET.get('payment_intent'))
 

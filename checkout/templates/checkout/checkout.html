@@ -2,32 +2,60 @@
 {% load static %}
 
 {% block content %}
+{% if not template_basket %}
+    <h2>Your basket is either empty, or all products are out of stock, sorry!</h2>
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Discount</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
+{% else %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Discount</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
 
-    {% for row in template_basket %}
-    <tr>
-        <td>{{row.0}}</td>
-        <td>{{row.1}}</td>
-        <td>{{row.2}}</td>
-        <td>{{row.3}}</td>
-        <td>{{row.4}}</td>
-    </tr>
-    {% endfor %}
-</table>
+        {% for row in template_basket %}
+        <tr {% if not row.5 %} class="strikeout" {% endif %}>
+            <td>{{row.0}}</td>
+            <td>{{row.1}}</td>
+            <td>{{row.2}}</td>
+            <td>{{row.3}}</td>
+            <td>{{row.4}}</td>
+            <td>{{row.5}}</td>
+            {% if not row.5 %}
+                <td>NOT AVAILABLE</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form }}
-    <button id="submit">Submit</button>
-</form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button id="submit">Submit</button>
+    </form>
+{% endif %}
 
+
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    td {
+        position: relative;
+        padding: 5px 10px;
+    }
+
+    tr.strikeout td:before {
+        content: " ";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        border-bottom: 1px solid #111;
+        width: 100%;
+    }
+</style>
 {% endblock %}
 
