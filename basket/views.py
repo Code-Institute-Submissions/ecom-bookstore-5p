@@ -4,14 +4,17 @@ from django.views import View
 # Basket data stored as:
 #   {'book_id': quantity(int)}
 
-
+# TODO: method to return users basket to be displayed in top bar
 class index(View):
     def get(self, request):
+        basket = {}
+        if request.session.get('basket', False):
+            basket = request.session['basket']
         return render(
             request,
             'basket/index.html',
             {
-                'basket': request.session['basket']
+                'basket': basket
             }
         )
 

@@ -60,7 +60,13 @@ class checkout(View):
 
         else:
             basket = {}
-        # TODO: return 'you've got nothing in your basket!'
+            return render(
+                request,
+                'checkout/checkout.html',
+                {
+                    'template_basket': []
+                }
+            )   
 
     def post(self, request):
         form = forms.OrderForm(request.POST)
