@@ -29,7 +29,7 @@
         </tr>
         {% endfor %}
     </table>
-
+    <h3>Total : £{{total}}</h3>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}

@@ -9,7 +9,7 @@ import os
 if os.path.exists('env.py'):
     import env  # noqa
 
-
+# TODO: Only allow if logged in
 class checkout(View):
     def get(self, request):
         if request.session.get('basket', False):
@@ -17,16 +17,18 @@ class checkout(View):
 
             template_basket = []
 
-            # Something wierd with price calc, idk why
+            total = 0
+
             status = True
             for bookid, quantity in basket.items():
                 book = bkm.Book.objects.get(id=bookid)
-                if book.stock == 0 or not book.available:
+                if book.stock == 0 or book.stock - quantity < 0 or not book.available:
                     status = False
                 else:
                     status = True
 
                 price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
+                total += price
                 template_basket.append(
                     [
                         book.name,
@@ -47,12 +49,13 @@ class checkout(View):
                     }
                 )   
 
-            form = forms.OrderForm({'order_id':0})
+            form = forms.OrderForm({'order_id': 0})
             # form.order_id = om.id
             return render(
                 request,
                 'checkout/checkout.html',
                 {
+                    'total': total,
                     'template_basket': template_basket,
                     'form': form
                 }
@@ -101,6 +104,8 @@ class checkout_payment(View):
 
             for bookid, quantity in basket.items():
                 book = bkm.Book.objects.get(id=bookid)
+                if (book.stock == 0 or book.stock - quantity < 0 or not book.available):
+                    continue
                 price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
                 total += price
 
