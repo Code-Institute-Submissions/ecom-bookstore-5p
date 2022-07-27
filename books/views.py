@@ -49,8 +49,9 @@ class search(View):
                     valid = rating > 0.75
 
                 if valid:
-                    matches.append(b)
-            
+                    g = bkm.BookGenre.objects.filter(book=b)
+                    matches.append([b, list(g)])
+
             return render(
                 request,
                 'books/results.html',

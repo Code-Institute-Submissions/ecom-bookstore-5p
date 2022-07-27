@@ -7,8 +7,6 @@ from django.views import View
 
 class index(View):
     def get(self, request):
-        if request.session.get('basket', False):
-            print(request.session['basket'])
         return render(
             request,
             'basket/index.html',

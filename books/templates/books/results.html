@@ -3,8 +3,59 @@
 
 {% block content %}
 
-{% for r in data %}
-<h1>{{r.name}}</h1>
-{% endfor %}
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Genres</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>Add to basket</th>
+            <th>Notify Me</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for r in data %}       
+        <tr>
+            <td>{{r.0.name}}</td>
+            <td>{{r.0.author}}</td>
+            <td>{{r.0.description}}</td>
+            <td>
+            {% for g in r.1 %}
+                {{g.genre.name}},
+            {% endfor %}                
+            </td>
+            <td>{{r.0.price}}</td>
+            <td>{% if r.0.available %}
+                    {% if r.0.stock > 0 %} 
+                    In Stock 
+                    {% else %} 
+                    Out Of Stock 
+                    {% endif %}
+                    {% else %}
+                Not available
+                {% endif %}
+            </td>
+            <td><button onclick="addToBasket({{r.0.id}}, 1)">Add To Basket</button></td>
+            <td>Notified via Email</td>
+        </tr>
+    {% endfor %}        
+    </tbody>
+</table>
 
+<script>
+    function addToBasket(id, quantity){
+        // TODO: pop up on screen to say its been added
+        $.ajax({
+            type: "GET",
+            url: "/basket/modify/"+id+"/"+quantity
+        });
+    }
+</script>
 {% endblock %}
+
+
+
+
