@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import books.views as bv
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,4 +24,5 @@ urlpatterns = [
     path('bookstoreadmin/', include('bookstoreadmin.urls')),
     path('basket/', include('basket.urls')),
     path('checkout/', include('checkout.urls')),
+    path('', bv.index.as_view(), name='index_bookstore'),
 ]

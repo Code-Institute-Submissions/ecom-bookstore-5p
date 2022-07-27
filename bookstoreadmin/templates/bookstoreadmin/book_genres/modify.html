@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+{% csrf_token %}
 <h2>{{obj.0.book.name}}</h2>
 <table id="genre-table">
     <thead>
@@ -30,17 +31,31 @@
 <button onclick="addGenre()">Add Genre</button>
 <button onclick="submit()">Submit</button>
 
+{% endblock %}
+
 {% block postloadjs %}
 <script>
     let num = {{ obj|length }};
     function addGenre(){
-        $('#genre-table tr:last').after(
-            ['<tr id="row-'+num+'"',
-              'class="genre-row">',
-              '<td id="' + $('#genre-select').val()+ '">', $("#genre-select option:selected").text() ,'</td>',
-              '<td><button onclick="removeGenre(', "'row-"+num+ "')" +'"' + ">Remove</button></td>" ,
-              '</tr>'].join(' ')
-        );
+        if(num == 0){
+            $('tbody').append(
+                ['<tr id="row-'+num+'"',
+                'class="genre-row">',
+                '<td id="' + $('#genre-select').val()+ '">', $("#genre-select option:selected").text() ,'</td>',
+                '<td><button onclick="removeGenre(', "'row-"+num+ "')" +'"' + ">Remove</button></td>" ,
+                '</tr>'].join(' ')
+            );
+        }
+        else{
+            $('#genre-table tr:last').after(
+                ['<tr id="row-'+num+'"',
+                'class="genre-row">',
+                '<td id="' + $('#genre-select').val()+ '">', $("#genre-select option:selected").text() ,'</td>',
+                '<td><button onclick="removeGenre(', "'row-"+num+ "')" +'"' + ">Remove</button></td>" ,
+                '</tr>'].join(' ')
+            );            
+        }
+
         num = num + 1;
     }
 
@@ -72,6 +87,4 @@
         });
     }
 </script>
-{% endblock %}
-
 {% endblock %}
