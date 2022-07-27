@@ -144,6 +144,10 @@ class success(View):
         om = chm.Order.objects.get(payment_intent=request.GET.get('payment_intent'))
 
         for bookid, quantity in basket.items():
+            book = bkm.Book.objects.get(id=bookid)
+            book.quantity - quantity
+            book.save()
+
             basket_item = chm.OrderItem()
             basket_item.order = om
             basket_item.book = bkm.Book.objects.get(id=bookid)
