@@ -8,13 +8,18 @@ import books.models as bkm
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
-# Seperate, as if you make a search you cant copy the link and send to someone
-class Index(View):
+
+class index(View):
+    def get(self, request):
+        return render(request, 'books/index.html')
+
+
+class search(View):
     def get(self, request):
         form = forms.SearchForm()
         return render(
             request,
-            'books/index.html',
+            'books/search.html',
             {
                 'form': form
             }
@@ -55,7 +60,7 @@ class Index(View):
             )
         return render(
             request,
-            'books/index.html',
+            'books/search.html',
             {
                 'form': form
             }

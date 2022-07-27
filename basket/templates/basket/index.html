@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
 <h1>{{basket}}</h1>
 <h1>{{basket.items}}</h1>
 
@@ -13,3 +17,4 @@
     </tr>
     {% endfor %}
 </table>
+{% endblock %}

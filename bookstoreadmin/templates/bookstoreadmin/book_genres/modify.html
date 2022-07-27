@@ -1,10 +1,7 @@
-<script
-src="https://code.jquery.com/jquery-3.6.0.min.js"
-integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-crossorigin="anonymous"></script>
+{% extends "base.html" %}
+{% load static %}
 
-{% csrf_token %}
-
+{% block content %}
 <h2>{{obj.0.book.name}}</h2>
 <table id="genre-table">
     <thead>
@@ -33,6 +30,7 @@ crossorigin="anonymous"></script>
 <button onclick="addGenre()">Add Genre</button>
 <button onclick="submit()">Submit</button>
 
+{% block postloadjs %}
 <script>
     let num = {{ obj|length }};
     function addGenre(){
@@ -74,3 +72,6 @@ crossorigin="anonymous"></script>
         });
     }
 </script>
+{% endblock %}
+
+{% endblock %}
