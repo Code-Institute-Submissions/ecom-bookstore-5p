@@ -16,6 +16,11 @@ urlpatterns = [
         name='basket_modify'
     ),
     path(
+        'modify/<int:id>/<negint:quantity>/<str:redirect_url>',
+        bv.modify.as_view(),
+        name='basket_modify'
+    ),
+    path(
         'remove/<int:id>',
         bv.remove.as_view(),
         name='basket_remove'

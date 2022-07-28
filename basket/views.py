@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 import books.models as bkm
-
+from decimal import Decimal
 # Basket data stored as:
 #   {'book_id': quantity(int)}
 
@@ -24,12 +24,14 @@ class index(View):
 
 
 class modify(View):
-    def get(self, request, id, quantity):
+    def get(self, request, id, quantity, redirect_url='basket_index'):
         if 'total' not in request.session:
             request.session['total'] = 0
 
         book = bkm.Book.objects.get(id=id)
-        price_of_single = book.price * (1 - book.discountPercent)
+        if not book.available or book.stock <= 0:
+            return 
+        price_of_single = book.price * (1 - Decimal(book.discountPercent/100))
 
         if request.session.get('basket', False):
             if str(id) in request.session['basket']:
@@ -51,7 +53,7 @@ class modify(View):
             del request.session['basket'][str(id)]
 
         request.session.modified = True
-        return redirect('basket_index')
+        return redirect(redirect_url)
 
 
 class remove(View):
