@@ -34,11 +34,24 @@
   </head>
   <body>
     <header>
-
-    </header>
     {% block page_header %}
+    {% if request.session.total %}
+      <h3>{{ request.session.total }}</h3>
+    {% else %}
+      <h3>£0</h3>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'account_logout' %}">Logout</a></li>
+    {% else %}
+      <li><a href="{% url 'account_login' %}">Login</a></li>
+      <li><a href="{% url 'account_signup' %}">Register</a></li>
+      <li><a href="{% url 'account_reset_password' %}">Reset Password</a></li>      
+    {% endif %} 
 
     {% endblock %}
+    </header>
+
 
     {% block content %}
 

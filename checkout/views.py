@@ -138,8 +138,6 @@ class checkout_payment(View):
 
 class success(View):
     def get(self, request):
-        # TODO: need to reduce amount of stock on purchase
-
         basket = request.session['basket']
         om = chm.Order.objects.get(payment_intent=request.GET.get('payment_intent'))
 
