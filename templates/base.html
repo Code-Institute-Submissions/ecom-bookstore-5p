@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load tempmath %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -36,7 +36,7 @@
     <header>
     {% block page_header %}
     {% if request.session.total %}
-      <h3>{{ request.session.total }}</h3>
+      <h3>£{{ request.session.total|convert_total }}</h3>
     {% else %}
       <h3>£0</h3>
     {% endif %}
