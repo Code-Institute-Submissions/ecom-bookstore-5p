@@ -45,15 +45,6 @@
 {% endif %}
 
 
-<script>
-    function addToBasket(id, quantity){
-        // TODO: pop up on screen to say its been added
-        $.ajax({
-            type: "GET",
-            url: "/basket/modify/"+id+"/"+quantity
-        });
-    }
-</script>
 {% endblock %}
 
 

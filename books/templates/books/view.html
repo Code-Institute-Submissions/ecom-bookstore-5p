@@ -2,19 +2,27 @@
 {% load static %}
 
 {% block content %}
+<h1>{{request.session.message}}</h1>
 <li>
     <ul>{{ book_data.name }}</ul>
     <ul>{{ book_data.description }}</ul>
-    <ul>{{ book_data.author }}</ul>
-    <ul>{{ book_data.pages }}</ul>
+    <ul>Author: {{ book_data.author }}</ul>
+    <ul>{{ book_data.pages }} pages</ul>
     {% if book_data.discountPercent != 0 %}
         <ul>{{ book_data.discountPercent }}% off</ul>
-        <ul><s>{{ book.price }}</s> {{ price }}</ul>
+        <ul><s>£{{ book.price }}</s> £{{ price }}</ul>
     {% else %}
-        <ul>{{ book_data.price }}</ul>
+        <ul>£{{ book_data.price }}</ul>
     {% endif %}
-    <ul>{{ book_data.available }}</ul>
-    <ul><a href="{% url 'basket_modify' book_data.id 1 %}">Add to basket</a></ul>
+
+    {% if book_data.available %}
+    <ul>Available</ul>
+    <ul><a href="{% url 'basket_modify' book_data.id 1 'view_book' %}">Add to basket</a></ul>
+    {% else %}
+    <ul>Not Available</ul>
+    <ul><a href="">Notify Me!</a></ul>
+    
+    {% endif %}
 </li>
 
 

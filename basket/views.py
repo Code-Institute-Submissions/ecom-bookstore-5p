@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from decimal import Decimal
+from django.contrib import messages
 import books.models as bkm
 # Basket data stored as:
 #   {'book_id': quantity(int)}
@@ -59,7 +60,7 @@ class modify(View):
 
         request.session.modified = True
         if redirect_url == 'view_book':
-            # TODO: message saying you have added to basket not working
+            messages.success(request, 'Book has been added to basket!')
             return redirect(redirect_url, id)
         return redirect(redirect_url)
 
@@ -71,6 +72,7 @@ class remove(View):
             price_of_single = book.price * (1 - Decimal(book.discountPercent/100))
             request.session['total'] -= int(round(price_of_single * request.session['basket'][str(id)], 2)*100)
             del request.session['basket'][str(id)]
+            messages.success(request, 'Book/s have been removed from your basket!')
             request.session.modified = True
         return redirect('basket_index')
 

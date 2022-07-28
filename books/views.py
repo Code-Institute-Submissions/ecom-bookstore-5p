@@ -1,9 +1,10 @@
 from difflib import SequenceMatcher
 from django.shortcuts import render
 from django.views import View
+from decimal import Decimal
 import books.forms as forms
 import books.models as bkm
-from decimal import Decimal
+
 # https://stackoverflow.com/a/17388505
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -77,6 +78,7 @@ class view_book(View):
         if book.discountPercent != 0:
             price = price * (1 - Decimal(book.discountPercent/100))
         price = "£"+format(price, ".2f")
+
         return render(
             request,
             'books/view.html',
