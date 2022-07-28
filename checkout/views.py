@@ -171,7 +171,14 @@ class orders(LoginRequiredMixin, View):
 
         template_data = []
         for fo in finished_orders:
-            new = [fo.id]
+            new = [fo]
             new.append(list(chm.OrderItem.objects.filter(order=fo)))
+            template_data.append(new)
 
-            
+        return render(
+            request,
+            'checkout/my_orders.html',
+            {
+                'orders': template_data
+            }
+        )

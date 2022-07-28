@@ -37,13 +37,16 @@
     <header>
     {% block page_header %}
     {% if request.session.total %}
-      <h3>£{{ request.session.total|convert_total }}</h3>
+      <h3>Basket Total : £{{ request.session.total|convert_total }}</h3>
     {% else %}
-      <h3>£0</h3>
+      <h3>Basket Total : £0</h3>
     {% endif %}
+      <li><a href="{% url 'index_bookstore' %}">Index</a></li>
 
     {% if user.is_authenticated %}
       <li><a href="{% url 'account_logout' %}">Logout</a></li>
+      <li><a href="{% url 'checkout_page' %}">Checkout</a></li>      
+      <li><a href="{% url 'see_orders' %}">My Orders</a></li>
     {% else %}
       <li><a href="{% url 'account_login' %}">Login</a></li>
       <li><a href="{% url 'account_signup' %}">Register</a></li>

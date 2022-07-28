@@ -1,6 +1,40 @@
 {% extends "base.html" %}
 {% load static %}
-<h1>hmm</h1>
+
 {% block content %}
+<table>
+    <tbody>
+    {% for o in orders %}
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Post Code</th>
+            <th>Town/City</th>
+        </tr>
+
+        <tr>
+            <td>{{o.0.id}}</td>
+            <td>{{o.0.email}}</td>
+            <td>{{o.0.postcode}}</td>
+            <td>{{o.0.town_city}}</td>
+        </tr>    
+        <tr>
+            <th>Price On Purchase</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Quantity</th>
+        </tr>
+        {% for u in o.1 %}
+            <tr>
+                <td>£{{u.priceOnPurchase}}</td>
+                <td>{{u.book.name}}</td>
+                <td>{{u.book.author}}</td>
+                <td>{{u.quantity}}</td>
+            </tr>
+        {% endfor %}            
+        <tr></tr>
+    {% endfor %}     
+    </tbody>
+</table>
 
 {% endblock %}
