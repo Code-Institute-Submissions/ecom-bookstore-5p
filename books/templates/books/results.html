@@ -8,12 +8,10 @@
         <tr>
             <th>Name</th>
             <th>Author</th>
-            <th>Description</th>
             <th>Genres</th>
             <th>Price</th>
             <th>Available</th>
-            <th>Add to basket</th>
-            <th>Notify Me</th>
+            <th>View</th>
         </tr>
     </thead>
     <tbody>
@@ -21,7 +19,6 @@
         <tr>
             <td>{{r.0.name}}</td>
             <td>{{r.0.author}}</td>
-            <td>{{r.0.description}}</td>
             <td>
             {% for g in r.1 %}
                 {{g.genre.name}},
@@ -38,8 +35,7 @@
                 Not available
                 {% endif %}
             </td>
-            <td><button onclick="addToBasket({{r.0.id}}, 1)">Add To Basket</button></td>
-            <td>Notified via Email</td>
+            <td><a href="{% url 'view_book' r.0.id %}">View</a></td>
         </tr>
     {% endfor %}        
     </tbody>

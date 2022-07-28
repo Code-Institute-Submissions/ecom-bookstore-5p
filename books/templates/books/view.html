@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<li>
+    <ul>{{ book_data.name }}</ul>
+    <ul>{{ book_data.description }}</ul>
+    <ul>{{ book_data.author }}</ul>
+    <ul>{{ book_data.pages }}</ul>
+    {% if book_data.discountPercent != 0 %}
+        <ul>{{ book_data.discountPercent }}% off</ul>
+        <ul><s>{{ book.price }}</s> {{ price }}</ul>
+    {% else %}
+        <ul>{{ book_data.price }}</ul>
+    {% endif %}
+    <ul>{{ book_data.available }}</ul>
+    <ul><a href="{% url 'basket_modify' book_data.id 1 %}">Add to basket</a></ul>
+</li>
+
+
+{% endblock %}
+
+
+
+

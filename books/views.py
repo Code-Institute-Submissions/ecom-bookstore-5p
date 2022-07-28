@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views import View
 import books.forms as forms
 import books.models as bkm
-
+from decimal import Decimal
 # https://stackoverflow.com/a/17388505
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -64,5 +64,25 @@ class search(View):
             'books/search.html',
             {
                 'form': form
+            }
+        )
+
+
+class view_book(View):
+    def get(self, request, book_id):
+        book = bkm.Book.objects.get(id=book_id)
+        genres = bkm.BookGenre.objects.filter(book=book)
+
+        price = book.price
+        if book.discountPercent != 0:
+            price = price * (1 - Decimal(book.discountPercent/100))
+        price = "£"+format(price, ".2f")
+        return render(
+            request,
+            'books/view.html',
+            {
+                'book_data': book,
+                'book_genres': genres,
+                'price': price
             }
         )
