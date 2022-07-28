@@ -4,19 +4,17 @@
 {% block content %}
 <!-- TODO: this will be forward facing, make it look nice -->
 
-<h1>£{{total|convert_total}}</h1>
-<h1>{{basket}}</h1>
-<h1>{{basket.items}}</h1>
-
 <table>
     <tr>
         <th>Item</th>
         <th>Quantity</th>
+        <th>Remove</th>
     </tr>
-    {% for b in basket.items%}
+    {% for b in basket%}
     <tr>
-        <td>{{b.0}}</td>
+        <td>{{b.0.name}}</td>
         <td>{{b.1}}</td>
+        <td><a href="{% url 'basket_remove' b.0.id %}">Remove</a></td>
     </tr>
     {% endfor %}
 </table>
