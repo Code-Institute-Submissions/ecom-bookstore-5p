@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bookstore-5p.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['bookstore-5p.herokuapp.com', 'localhost']
 
 
 # Application definition
