@@ -3,10 +3,11 @@ from django.views import View
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import Group, User, Permission
 from django.contrib.auth.decorators import permission_required
-import books.models as bkm
-import bookstoreadmin.forms as forms
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+import books.models as bkm
+import bookstoreadmin.forms as forms
+import cloudinary
 
 try:
     if not Group.objects.filter(name='site_admin').exists():
@@ -124,6 +125,8 @@ class modify_book(PermissionRequiredMixin, View):
             data.stock = form.cleaned_data['stock']
             data.discountPercent = form.cleaned_data['discountPercent']
             data.available = form.cleaned_data['available']
+            data.image = cloudinary.uploader.upload(
+                request.FILES['image'])['url']
 
             data.save()
         return redirect('list_books_admin')

@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from books.custom_models import IntegerRangeField
-
+from cloudinary.models import CloudinaryField
 
 class Book(models.Model):
     name = models.CharField(max_length=200)
@@ -16,7 +16,11 @@ class Book(models.Model):
         blank=True,
         null=True
     )
-    # image
+    image = CloudinaryField(
+        'image',
+        default=(
+            'https://res.cloudinary.com/df6z9chzs/image/upload/v1659045257/default_hg9e8l.png')
+    )
     stock = models.IntegerField()
     # isOnSale probably not needed as, if below is not empty then its on sale
     discountPercent = IntegerRangeField(min_value=0, max_value=100)
