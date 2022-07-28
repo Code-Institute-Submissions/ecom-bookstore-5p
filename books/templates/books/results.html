@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-
+{% if data %}
 <table>
     <thead>
         <tr>
@@ -44,6 +44,10 @@
     {% endfor %}        
     </tbody>
 </table>
+{% else %}
+<h1>No Matching Books Found!</h1>
+{% endif %}
+
 
 <script>
     function addToBasket(id, quantity){
