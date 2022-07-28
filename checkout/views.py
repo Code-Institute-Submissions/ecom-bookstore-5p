@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 import checkout.forms as forms
 import books.models as bkm
 import checkout.models as chm
@@ -9,8 +11,7 @@ import os
 if os.path.exists('env.py'):
     import env  # noqa
 
-# TODO: Only allow if logged in
-class checkout(View):
+class checkout(LoginRequiredMixin, View):
     def get(self, request):
         if request.session.get('basket', False):
             basket = request.session['basket']
@@ -39,7 +40,7 @@ class checkout(View):
                         status
                     ]
                 )
-        
+
             if len([h for h in template_basket if not h[5]]) == len(template_basket):
                 return render(
                     request,
@@ -91,12 +92,12 @@ class checkout(View):
                 'checkout_payment',
                 order_id=data.id
             )
-        # TODO: return error
-        print(form.errors)
-        pass
+
+        messsages.error(request, 'An unknown problem has occurred!')
+        return redirect('index_bookstore')
 
 
-class checkout_payment(View):
+class checkout_payment(LoginRequiredMixin, View):
     def get(self, request, order_id):
         if request.session.get('basket', False):
             basket = request.session['basket']
@@ -122,7 +123,8 @@ class checkout_payment(View):
 
         else:
             basket = {}
-            # TODO: return error
+            messsages.error(request, 'Cant make a payment to a empty cart, how did you get here?')
+            return redirect('index_bookstore')
 
         return render(
             request,
@@ -136,7 +138,7 @@ class checkout_payment(View):
         )
 
 
-class success(View):
+class success(LoginRequiredMixin, View):
     def get(self, request):
         basket = request.session['basket']
         om = chm.Order.objects.get(payment_intent=request.GET.get('payment_intent'))
@@ -155,7 +157,7 @@ class success(View):
         return render(request, 'checkout/success.html')
 
 
-class orders(View):
+class orders(LoginRequiredMixin, View):
     def get(self, request):
         stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 
