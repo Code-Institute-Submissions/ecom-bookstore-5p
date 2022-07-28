@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% load tempmath %}
 {% block content %}
 <!-- TODO: this will be forward facing, make it look nice -->
 
+<h1>£{{total|div:"100"}}</h1>
 <h1>{{basket}}</h1>
 <h1>{{basket.items}}</h1>
 
