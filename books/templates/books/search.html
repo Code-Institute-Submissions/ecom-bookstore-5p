@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 
 {% block content %}
@@ -15,7 +16,7 @@
         {% endfor %}
     {% endif %}
 
-    {{ form }}
+    {{ form|crispy }}
 
     <button type="submit">Search</button>              
 </form>
