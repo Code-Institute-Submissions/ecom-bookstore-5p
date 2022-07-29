@@ -35,34 +35,41 @@
   </head>
   <body>
     <header>
-    {% block page_header %}
-    {% if request.session.total %}
-      <h3>Basket Total : £{{ request.session.total|convert_total }}</h3>
-    {% else %}
-      <h3>Basket Total : £0</h3>
-    {% endif %}
-      <li><a href="{% url 'index_bookstore' %}">Index</a></li>
-      <li><a href="{% url 'basket_index' %}">Basket</a></li>
-    {% if user.is_authenticated %}
-      <li><a href="{% url 'account_logout' %}">Logout</a></li>
-      <li><a href="{% url 'checkout_page' %}">Checkout</a></li>      
-      <li><a href="{% url 'see_orders' %}">My Orders</a></li>
-    {% else %}
-      <li><a href="{% url 'account_login' %}">Login</a></li>
-      <li><a href="{% url 'account_signup' %}">Register</a></li>
-      <li><a href="{% url 'account_reset_password' %}">Reset Password</a></li>      
-    {% endif %} 
 
-    {% endblock %}
-    </header>
 
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+      {% block page_header %}
+      {% if request.session.total %}
+        <h3>Basket Total : £{{ request.session.total|convert_total }}</h3>
+      {% else %}
+        <h3>Basket Total : £0</h3>
+      {% endif %}
+        <li><a href="{% url 'books_search' %}">Search</a></li>
+        <li><a href="{% url 'index_bookstore' %}">Index</a></li>
+        <li><a href="{% url 'basket_index' %}">Basket</a></li>
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'account_logout' %}">Logout</a></li>
+        <li><a href="{% url 'checkout_page' %}">Checkout</a></li>      
+        <li><a href="{% url 'see_orders' %}">My Orders</a></li>
+      {% else %}
+        <li><a href="{% url 'account_login' %}">Login</a></li>
+        <li><a href="{% url 'account_signup' %}">Register</a></li>
+        <li><a href="{% url 'account_reset_password' %}">Reset Password</a></li>      
+      {% endif %} 
+  
+      {% endblock %}
+      </header>
+  
+      {% if messages %}
+      <section>
+          {% for msg in messages %}
+              <!-- all django message tags mirror bootstrap, except error/danger -->
+              <aside class="alert {% if msg.tags == 'error' %}alert-danger{% else %}alert-{{ msg.tags }}{% endif %} text-center">
+                  <h3>{{ msg }}</h3>
+              </aside>
+          {% endfor %}
+      </section>
+      {% endif %}
+
 
     {% block content %}
 
