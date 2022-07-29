@@ -6,6 +6,7 @@ import books.models as bkm
 # Basket data stored as:
 #   {'book_id': quantity(int)}
 
+# TODO: This whole file can definatley be reduced to about 20 lines, or less
 class index(View):
     def get(self, request):
         basket = {}

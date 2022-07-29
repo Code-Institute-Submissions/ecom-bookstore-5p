@@ -24,5 +24,6 @@ urlpatterns = [
     path('bookstoreadmin/', include('bookstoreadmin.urls')),
     path('basket/', include('basket.urls')),
     path('checkout/', include('checkout.urls')),
+    path('postoffice/', include('postoffice.urls')),
     path('', bv.index.as_view(), name='index_bookstore'),
 ]
