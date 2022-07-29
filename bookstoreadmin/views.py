@@ -92,6 +92,10 @@ class create_book(PermissionRequiredMixin, View):
             data.discountPercent = form.cleaned_data['discountPercent']
             data.available = form.cleaned_data['available']
 
+            if 'image' in request.FILES:
+                data.image = cloudinary.uploader.upload(
+                    request.FILES['image'])['url']
+
             data.save()
         return redirect('list_books_admin')
 
@@ -125,8 +129,9 @@ class modify_book(PermissionRequiredMixin, View):
             data.stock = form.cleaned_data['stock']
             data.discountPercent = form.cleaned_data['discountPercent']
             data.available = form.cleaned_data['available']
-            data.image = cloudinary.uploader.upload(
-                request.FILES['image'])['url']
+            if 'image' in request.FILES:
+                data.image = cloudinary.uploader.upload(
+                    request.FILES['image'])['url']
 
             data.save()
         return redirect('list_books_admin')
