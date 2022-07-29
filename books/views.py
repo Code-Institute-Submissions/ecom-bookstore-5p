@@ -1,9 +1,14 @@
 from difflib import SequenceMatcher
 from django.shortcuts import render
 from django.views import View
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 from decimal import Decimal
+from postoffice.forms import NotifySignUpForm
+from postoffice.models import BookNotify
 import books.forms as forms
 import books.models as bkm
+
 
 # https://stackoverflow.com/a/17388505
 def similar(a, b):
@@ -77,7 +82,9 @@ class view_book(View):
         price = book.price
         if book.discountPercent != 0:
             price = price * (1 - Decimal(book.discountPercent/100))
-        price = "£"+format(price, ".2f")
+        price = format(price, ".2f")
+
+        form = NotifySignUpForm()
 
         return render(
             request,
@@ -85,6 +92,27 @@ class view_book(View):
             {
                 'book_data': book,
                 'book_genres': genres,
-                'price': price
+                'price': price,
+                'form': form
             }
         )
+
+    def post(self, request, book_id):
+        form = NotifySignUpForm(request.POST)
+
+        if form.is_valid():
+            if BookNotify.objects.filter(email=request.user.email).exists():
+                messages.warning(request, 'You Have Already Put A Watch On This Book!')
+            else:
+                new = BookNotify()
+                if request.user.is_authenticated:
+                    new.email = request.user.email
+                else:
+                    new.email = email
+
+                new.book = bkm.Book.objects.get(id=book_id)            
+                messages.success(request, 'You Will Be Notified When The Book Updates!')
+                new.save()
+
+        return HttpResponseRedirect(self.request.path_info)
+

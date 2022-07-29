@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/modal.css' %}">
+{% endblock %}
+
+{% block postloadjs %}
+<script src="{% static 'js/modal.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 <h1>{{request.session.message}}</h1>
 <li>
@@ -10,7 +18,7 @@
     <ul>{{ book_data.pages }} pages</ul>
     {% if book_data.discountPercent != 0 %}
         <ul>{{ book_data.discountPercent }}% off</ul>
-        <ul><s>£{{ book.price }}</s> £{{ price }}</ul>
+        <ul><s>£{{ book_data.price }}</s> £{{ price }}</ul>
     {% else %}
         <ul>£{{ book_data.price }}</ul>
     {% endif %}
@@ -20,11 +28,29 @@
     <ul><a href="{% url 'basket_modify' book_data.id 1 'view_book' %}">Add to basket</a></ul>
     {% else %}
     <ul>Not Available</ul>
-    <ul><a href="">Notify Me!</a></ul>
-    
+    <button id="myBtn">Notify Me!</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Enter Your Email To Recieve Notifcations About This Book!</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <hr>
+            <button type="submit">Sign up</button>
+          </form>
+    </div>
+
+    </div> 
     {% endif %}
 </li>
+<script>
 
+</script>
 
 {% endblock %}
 

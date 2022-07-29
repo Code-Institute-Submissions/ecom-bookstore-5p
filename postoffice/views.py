@@ -3,8 +3,10 @@ from django.views import View
 from django.contrib import messages
 from postoffice.forms import NewsletterForm
 from django.core.mail import EmailMessage
-from postoffice.models import Newsletter
+from postoffice.models import Newsletter, BookNotify
 from django.contrib.auth.models import Group
+from django.contrib import messages
+from books.models import Book
 import os
 
 class write_newsletter(View):
