@@ -12,7 +12,7 @@ import books.models as bkm
 
 # https://stackoverflow.com/a/17388505
 def similar(a, b):
-    return SequenceMatcher(None, a, b).ratio()
+    return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 
 class index(View):
@@ -43,7 +43,7 @@ class search(View):
                 # https://stackoverflow.com/a/19794198
                 if form.cleaned_data['name']:
                     rating = similar(form.cleaned_data['name'], b.name)
-                    valid = rating > 0.75
+                    valid = rating > 0.40
 
                 book_genres = bkm.BookGenre.objects.filter(book=b)
                 book_genres = [x.genre.id for x in list(book_genres)]
@@ -52,7 +52,7 @@ class search(View):
 
                 if form.cleaned_data['author']:
                     rating = similar(form.cleaned_data['author'], b.author)
-                    valid = rating > 0.75
+                    valid = rating > 0.40
 
                 if valid:
                     g = bkm.BookGenre.objects.filter(book=b)
