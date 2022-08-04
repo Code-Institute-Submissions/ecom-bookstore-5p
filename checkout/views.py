@@ -8,8 +8,7 @@ import books.models as bkm
 import checkout.models as chm
 import stripe
 import os
-if os.path.exists('env.py'):
-    import env  # noqa
+from basket.views import modify, clear
 
 class checkout(LoginRequiredMixin, View):
     def get(self, request):
@@ -23,13 +22,16 @@ class checkout(LoginRequiredMixin, View):
             status = True
             for bookid, quantity in basket.items():
                 book = bkm.Book.objects.get(id=bookid)
-                if book.stock == 0 or book.stock - quantity < 0 or not book.available:
+                if book.stock == 0 or not book.available:
                     status = False
+                elif book.stock - quantity < 0:
+                    messages.warning(request, f'Not enough of "{book.name}" in stock, only {book.stock} has been kept in basket')
+                    modify(request, bookid, -(quantity - book.stock))
+                    quantity = book.stock
                 else:
                     status = True
 
                 price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
-                total += price
                 template_basket.append(
                     [
                         book.name,
@@ -41,6 +43,8 @@ class checkout(LoginRequiredMixin, View):
                     ]
                 )
 
+            print(len(template_basket))
+            print(len([h for h in template_basket if not h[5]]))
             if len([h for h in template_basket if not h[5]]) == len(template_basket):
                 return render(
                     request,
@@ -56,7 +60,6 @@ class checkout(LoginRequiredMixin, View):
                 request,
                 'checkout/checkout.html',
                 {
-                    'total': total,
                     'template_basket': template_basket,
                     'form': form
                 }
@@ -100,20 +103,11 @@ class checkout(LoginRequiredMixin, View):
 class checkout_payment(LoginRequiredMixin, View):
     def get(self, request, order_id):
         if request.session.get('basket', False):
-            basket = request.session['basket']
-            total = 0
+            total = request.session['total']
 
-            for bookid, quantity in basket.items():
-                book = bkm.Book.objects.get(id=bookid)
-                if (book.stock == 0 or book.stock - quantity < 0 or not book.available):
-                    continue
-                price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
-                total += price
-
-            stripe_total = round(total * 100)
             stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
             intent = stripe.PaymentIntent.create(
-                amount=stripe_total,
+                amount=total,
                 currency=settings.STRIPE_CURRENCY
             )
 
@@ -122,7 +116,6 @@ class checkout_payment(LoginRequiredMixin, View):
             obj.save()
 
         else:
-            basket = {}
             messsages.error(request, 'Cant make a payment to a empty cart, how did you get here?')
             return redirect('index_bookstore')
 
@@ -132,7 +125,7 @@ class checkout_payment(LoginRequiredMixin, View):
             {
                 'stripe_public_key': os.environ.get('STRIPE_PUBLIC_KEY'),
                 'client_secret': intent.client_secret,
-                'stripe_total': stripe_total,
+                'stripe_total': total,
                 'order_id': order_id
             }
         )
@@ -154,6 +147,7 @@ class success(LoginRequiredMixin, View):
             basket_item.quantity = quantity
             basket_item.priceOnPurchase = basket_item.book.price
             basket_item.save()
+        clear(request)
         return render(request, 'checkout/success.html')
 
 

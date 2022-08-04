@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load tempmath %}
 {% load static %}
 
 {% block content %}
@@ -30,7 +31,7 @@
         </tr>
         {% endfor %}
     </table>
-    <h3>Total : £{{total}}</h3>
+    <h3>Total : £{{ request.session.total|convert_total }}</h3>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
