@@ -6,6 +6,7 @@ const options = {
     clientSecret: _clientSecret
 }
 
+/* jshint esversion: 11, jquery: true */
 var elements = stripe.elements(options);
 const paymentElement = elements.create('payment');
 paymentElement.mount('#payment-element');
