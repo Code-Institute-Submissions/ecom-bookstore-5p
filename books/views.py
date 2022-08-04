@@ -12,6 +12,8 @@ import books.models as bkm
 
 # https://stackoverflow.com/a/17388505
 def similar(a, b):
+    if a.lower() in b.lower():
+        return 1
     return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 
