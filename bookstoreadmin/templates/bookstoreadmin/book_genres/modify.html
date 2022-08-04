@@ -78,7 +78,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/bookstoreadmin/books/modify_book_genres/{{book_id}}",
+            url: "{% url 'modify_book_genres' book_id %}",
             data:{ data:data },
             headers:{
                 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
