@@ -3,9 +3,7 @@
 {% load static %}
 
 {% block content %}
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-
+<form method="get" action="{% url 'search_result' %}" enctype="multipart/form-data">
     {% if form.errors %}
         {% for field in form %}
             {% for error in field.errors %}

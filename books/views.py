@@ -76,6 +76,49 @@ class search(View):
         )
 
 
+class results(View):
+    def get(self, request):
+
+        books = bkm.Book.objects.all()
+
+        options = 0
+        valid = []
+        matches = []
+        for b in books:
+            # https://stackoverflow.com/a/19794198
+            if request.GET.get('name'):
+                options += 1
+                rating = similar(request.GET.get('name'), b.name)
+                if rating > 0.40:
+                    valid.append(True)
+
+            book_genres = bkm.BookGenre.objects.filter(book=b)
+            book_genres = [x.genre.id for x in list(book_genres)]
+            if request.GET.get('genre') is not None:
+                options += 1
+                if int(request.GET.get('genre')) in book_genres:
+                    valid.append(True)
+
+            if request.GET.get('author'):
+                options += 1
+                rating = similar(request.GET.get('author'), b.author)
+                if rating > 0.40:
+                    valid.append(True)
+
+            if len([i for i in valid if i]) == options:
+                g = bkm.BookGenre.objects.filter(book=b)
+                matches.append([b, list(g)])
+            valid = []
+            options = 0
+        return render(
+            request,
+            'books/results.html',
+            {
+                'data': matches
+            }
+        )
+
+
 class view_book(View):
     def get(self, request, book_id):
         book = bkm.Book.objects.get(id=book_id)
