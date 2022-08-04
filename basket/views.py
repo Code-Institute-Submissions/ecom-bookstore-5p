@@ -29,42 +29,43 @@ class index(View):
             }
         )
 
-
-class modify(View):
+class modify_class(View):
     def get(self, request, id, quantity, redirect_url='basket_index'):
-        if 'total' not in request.session:
-            request.session['total'] = 0
-
-        book = bkm.Book.objects.get(id=id)
-        if not book.available or book.stock <= 0:
-            return 
-        price_of_single = book.price * (1 - Decimal(book.discountPercent/100))
-
-        if request.session.get('basket', False):
-            if str(id) in request.session['basket']:
-                if request.session['basket'][str(id)] + quantity < 0:
-                    quantity = -request.session['basket'][str(id)]
-
-                request.session['total'] += int(round(price_of_single * quantity, 2)*100)
-                request.session['basket'][str(id)] += quantity
-            else:
-                request.session['basket'][str(id)] = quantity
-                request.session['total'] += int(round(price_of_single * quantity, 2)*100)
-
-        else:
-            request.session['basket'] = {}
-            request.session['basket'][str(id)] = quantity
-            request.session['total'] += int(round(price_of_single * quantity, 2)*100)
-
-        if request.session['basket'][str(id)] <= 0:
-            del request.session['basket'][str(id)]
-
-        request.session.modified = True
+        modify(request, id, quantity)
         if redirect_url == 'view_book':
             messages.success(request, 'Book has been added to basket!')
             return redirect(redirect_url, id)
         return redirect(redirect_url)
 
+def modify(request, id, quantity):
+    if 'total' not in request.session:
+        request.session['total'] = 0
+
+    book = bkm.Book.objects.get(id=id)
+    if not book.available or book.stock <= 0:
+        return
+    price_of_single = book.price * (1 - Decimal(book.discountPercent/100))
+
+    if request.session.get('basket', False):
+        if str(id) in request.session['basket']:
+            if request.session['basket'][str(id)] + quantity < 0:
+                quantity = -request.session['basket'][str(id)]
+
+            request.session['total'] += int(round(price_of_single * quantity, 2)*100)
+            request.session['basket'][str(id)] += quantity
+        else:
+            request.session['basket'][str(id)] = quantity
+            request.session['total'] += int(round(price_of_single * quantity, 2)*100)
+
+    else:
+        request.session['basket'] = {}
+        request.session['basket'][str(id)] = quantity
+        request.session['total'] += int(round(price_of_single * quantity, 2)*100)
+
+    if request.session['basket'][str(id)] <= 0:
+        del request.session['basket'][str(id)]
+
+    request.session.modified = True
 
 class remove(View):
     def get(self, request, id):
@@ -78,11 +79,14 @@ class remove(View):
         return redirect('basket_index')
 
 
-class clear(View):
+class clear_view(View):
     def get(self, request):
-        if request.session.get('basket', False):
-            del request.session['basket']
-        if request.session.get('total', False):
-            del request.session['total']
-        request.session.modified = True
+        clear(request)
         return redirect('basket_index')
+
+def clear(request):
+    if request.session.get('basket', False):
+        del request.session['basket']
+    if request.session.get('total', False):
+        del request.session['total']
+    request.session.modified = True    

@@ -12,12 +12,12 @@ urlpatterns = [
     ),
     path(
         'modify/<int:id>/<negint:quantity>',
-        bv.modify.as_view(),
+        bv.modify_class.as_view(),
         name='basket_modify'
     ),
     path(
         'modify/<int:id>/<negint:quantity>/<str:redirect_url>',
-        bv.modify.as_view(),
+        bv.modify_class.as_view(),
         name='basket_modify'
     ),
     path(
@@ -27,7 +27,7 @@ urlpatterns = [
     ),
     path(
         'clear',
-        bv.clear.as_view(),
+        bv.clear_view.as_view(),
         name='basket_clear'
     ),
 ]
