@@ -7,7 +7,9 @@ from postoffice.models import Newsletter, BookNotify
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from books.models import Book
+from django.contrib.sites.models import Site
 import os
+
 
 class write_newsletter(View):
     def get(self, request):
@@ -25,28 +27,29 @@ class write_newsletter(View):
 
     def post(self, request):
         if Group.objects.filter(user=request.user, name='newsletter_writer').exists():
-            print("huruhr")
             form = NewsletterForm(request.POST)
             if form.is_valid():
-
                 emails = Newsletter.objects.all()
+                current_site = Site.objects.get_current()
 
-                email = EmailMessage(
-                    subject=form.cleaned_data['subject'],
-                    body=form.cleaned_data['body'],
-                    from_email=os.environ.get('EMAIL_HOST_USER'),
-                    bcc=[e.email for e in emails]
-                )
+                # TODO: By making it cancel via id anyone could just type in numbers and cancel random peoples newsletters, get around this by sending a confirmation email?
+                for e in emails:
+                    email = EmailMessage(
+                        subject=form.cleaned_data['subject'],
+                        body=form.cleaned_data['body']+f'\n{current_site.domain}/cancel_newsletter/{e.id}',
+                        from_email=os.environ.get('EMAIL_HOST_USER'),
+                        bcc=[e.email]
+                    )
+                    email.send()
 
-                email.send()
-
+                return redirect('index_bookstore')
         messages.error(request, 'You dont have permission to be here!')
         return redirect('index_bookstore')
+
 
 class signup_newsletter(View):
     def get(self, request):
         form = NotifySignUpForm()
-
         return render(
             request,
             'postoffice/newsletter_signup.html',
@@ -69,3 +72,19 @@ class signup_newsletter(View):
         else:
             messages.error(request, 'Something went wrong with the form!')
         return redirect('signup_newsletter')
+
+
+class cancel_newsletter(View):
+    def get(self, request, id):
+        if Newsletter.objects.filter(id=id).exists():
+            email = Newsletter.objects.get(id=id)
+            email.delete()
+            email = EmailMessage(
+                subject='Newsletter Cancellation',
+                body='Sorry to see you go! As requested you have been removed from the sites newsletter list.',
+                from_email=os.environ.get('EMAIL_HOST_USER'),
+                bcc=[email.email]
+            )
+            email.send()
+            messages.success(request, 'You have been removed from the newsletter list.')
+        return redirect('index_bookstore')
