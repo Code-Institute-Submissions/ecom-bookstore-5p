@@ -7,5 +7,6 @@ class NewsletterForm(forms.Form):
     subject = forms.CharField(min_length=3, max_length=200)
     body = forms.CharField(min_length=5, max_length=2000)
 
+
 class NotifySignUpForm(forms.Form):
     email = forms.EmailField()
