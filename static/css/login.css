@@ -1,0 +1,18 @@
+.signup-custom{
+    text-align: center;
+}
+
+.signup-header-custom{
+    text-align: center;
+}
+
+h1{
+    text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+    .login{
+        width:50%;
+        margin:0 auto;
+    }
+}
