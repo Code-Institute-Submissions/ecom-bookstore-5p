@@ -1,0 +1,13 @@
+/* .results-container{
+    margin:0 auto;   
+    width:90%;
+} */
+
+.card-image{
+    height:300px;
+    object-fit: cover;
+}
+
+.body{
+    width:80%;
+}

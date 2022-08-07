@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/my_orders.css' %}">
+{% endblock %}
+
 {% block content %}
 
     {% for o in orders %}
-        <table>
+        <table class="table">
             <tbody>
                 <tr>
                     <th>ID</th>
                     <th>Email</th>
                     <th>Post Code</th>
                     <th>Town/City</th>
+                    <th>Address</th>
                 </tr>
 
                 <tr>
@@ -18,8 +23,10 @@
                     <td>{{o.0.email}}</td>
                     <td>{{o.0.postcode}}</td>
                     <td>{{o.0.town_city}}</td>
+                    <td>{{o.0.address_line_one}}</td>
                 </tr>    
                 <tr>
+                    <th></th>                    
                     <th>Price On Purchase</th>
                     <th>Name</th>
                     <th>Author</th>
@@ -27,6 +34,7 @@
                 </tr>
                 {% for u in o.1 %}
                     <tr>
+                        <td></td>
                         <td>£{{u.priceOnPurchase}}</td>
                         <td>{{u.book.name}}</td>
                         <td>{{u.book.author}}</td>

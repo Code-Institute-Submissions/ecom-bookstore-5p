@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>ID</th>
@@ -26,7 +26,7 @@
         {% for b in obj %}
         <tr>
             <td>{{b.0.id}}</td>
-            <td style="display:block;margin-right:100px;">{{b.0.name}}</td>
+            <td>{{b.0.name}}</td>
             <td>{{b.0.description}}</td>
             <td>{{b.0.author}}</td>
             <td>{{b.0.pages}}</td>

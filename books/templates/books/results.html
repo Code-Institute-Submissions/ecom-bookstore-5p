@@ -1,54 +1,49 @@
 {% extends "base.html" %}
 {% load static %}
+{% load tempmath %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/results.css' %}">
+{% endblock %}
 
 {% block content %}
 {% if data %}
-<table>
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Author</th>
-            <th>Genres</th>
-            <th>Price</th>
-            <th>Available</th>
-            <th>View</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for r in data %}       
-        <tr>
-            <td><img style="max-width:200px;" src="{{r.0.image}}"></td>
-            <td>{{r.0.name}}</td>
-            <td>{{r.0.author}}</td>
-            <td>
-            {% for g in r.1 %}
-                {{g.genre.name}},
-            {% endfor %}                
-            </td>
-            <td>{{r.0.price}}</td>
-            <td>{% if r.0.available %}
-                    {% if r.0.stock > 0 %} 
-                    In Stock 
-                    {% else %} 
-                    Out Of Stock 
-                    {% endif %}
-                    {% else %}
-                Not available
-                {% endif %}
-            </td>
-            <td><a href="{% url 'view_book' r.0.id %}">View</a></td>
-        </tr>
-    {% endfor %}        
-    </tbody>
-</table>
+
+
+<div class="container">
+    <div class="row">
+        {% for d in data %}
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <img class="card-img-top card-image" src="{{d.0.image}}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">{{d.0.name}}</h4>
+                        <h6 class="card-title">Author: {{d.0.author}}</h6>
+                        <p class="card-text">
+                            {% for g in d.1 %}
+                                {{g.genre.name}},
+                            {% endfor %}  
+                        </p>                        
+                        <p class="card-text">{{d.0.description}}</p>
+                        <p class="card-text">
+                            {% if d.0.discountPercent != 0 %}
+                                {{ d.0.discountPercent }}% off <s>£{{ d.0.price }}</s> £{{ d.0.price|discount:d.0.discountPercent }}
+                            {% else %}
+                                £{{ d.0.price }}
+                            {% endif %}
+                        </p>
+                        <p class="card-text"><a href="{% url 'view_book' d.0.id %}">View</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
 {% else %}
 <h1>No Matching Books Found!</h1>
 {% endif %}
 
-
 {% endblock %}
-
-
-
-
