@@ -89,4 +89,4 @@ def clear(request):
         del request.session['basket']
     if request.session.get('total', False):
         del request.session['total']
-    request.session.modified = True    
+    request.session.modified = True

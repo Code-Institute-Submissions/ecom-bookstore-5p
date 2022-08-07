@@ -12,6 +12,7 @@ def email_before_change(sender, instance, **kwargs):
 
     if not Book.objects.filter(id=id).exists():
         return
+
     old_value = Book.objects.get(id=id)
 
     if old_value.stock == 0 and instance.stock > 0:
