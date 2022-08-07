@@ -11,6 +11,7 @@ import books.models as bkm
 
 
 # https://stackoverflow.com/a/17388505
+# TODO: apparently 'Token' and 'Someone' is 0.5, make more strict?
 def similar(a, b):
     if a.lower() in b.lower():
         return 1
@@ -33,52 +34,9 @@ class search(View):
             }
         )
 
-    def post(self, request):
-        form = forms.SearchForm(request.POST)
-
-        if form.is_valid():
-            books = bkm.Book.objects.all()
-
-            valid = False
-            matches = []
-            for b in books:
-                # https://stackoverflow.com/a/19794198
-                if form.cleaned_data['name']:
-                    rating = similar(form.cleaned_data['name'], b.name)
-                    valid = rating > 0.40
-
-                book_genres = bkm.BookGenre.objects.filter(book=b)
-                book_genres = [x.genre.id for x in list(book_genres)]
-                if form.cleaned_data.get('genre') is not None:
-                    valid = form.cleaned_data.get('genre').id in book_genres
-
-                if form.cleaned_data['author']:
-                    rating = similar(form.cleaned_data['author'], b.author)
-                    valid = rating > 0.40
-
-                if valid:
-                    g = bkm.BookGenre.objects.filter(book=b)
-                    matches.append([b, list(g)])
-
-            return render(
-                request,
-                'books/results.html',
-                {
-                    'data': matches
-                }
-            )
-        return render(
-            request,
-            'books/search.html',
-            {
-                'form': form
-            }
-        )
-
 
 class results(View):
     def get(self, request):
-
         books = bkm.Book.objects.all()
 
         options = 0
@@ -92,9 +50,9 @@ class results(View):
                 if rating > 0.40:
                     valid.append(True)
 
-            book_genres = bkm.BookGenre.objects.filter(book=b)
-            book_genres = [x.genre.id for x in list(book_genres)]
-            if request.GET.get('genre') is not None:
+            if request.GET.get('genre'):
+                book_genres = bkm.BookGenre.objects.filter(book=b)
+                book_genres = [x.genre.id for x in list(book_genres)]    
                 options += 1
                 if int(request.GET.get('genre')) in book_genres:
                     valid.append(True)
