@@ -13,7 +13,7 @@ import books.models as bkm
 # https://stackoverflow.com/a/17388505
 # TODO: apparently 'Token' and 'Someone' is 0.5, make more strict?
 def similar(a, b):
-    if a.lower() in b.lower():
+    if a.lower() in b.lower() or b.lower() in a.lower():
         return 1
     return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
