@@ -1,6 +1,31 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/results.css' %}">
+{% endblock %}
+
 {% block content %}
+{% if books %}
+<h2>Newest Releases</h2>
+<div class="container">
+    <div class="row">
+    {% for b in books %}
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+        <img class="card-img-top card-image" src="{{b.image}}" alt="">
+            <div class="card-body">
+                <h4 class="card-title">{{b.name}}</h4>
+                <h6 class="card-title">Author: {{b.author}}</h6>               
+                <p class="card-text">{{b.description}}</p>
+                <p class="card-text"><a href="{% url 'view_book' b.id %}">View</a></p>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+    </div>
+</div>
+
+{% endif %}
 
 {% endblock %}

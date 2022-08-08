@@ -20,7 +20,14 @@ def similar(a, b):
 
 class index(View):
     def get(self, request):
-        return render(request, 'books/index.html')
+        books = bkm.Book.objects.filter(available=True).order_by('id')
+        return render(
+            request,
+            'books/index.html',
+            {
+                'books': books[2:]
+            }
+        )
 
 
 class search(View):
