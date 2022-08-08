@@ -15,33 +15,63 @@ I used github [issues](https://github.com/edenobrega/ecom-bookstore-5p/issues) t
 ### Wireframes
 Basket
 
-![](documentation/wireframes/basket.png)
+![](documentation/Wireframes/basket.png)
 
 
 Checkout
 
-![](documentation/wireframes/checkout_one.png)
+![](documentation/Wireframes/checkout_one.png)
 
 
 Orders
 
-![](documentation/wireframes/my_orders.png)
+![](documentation/Wireframes/my_orders.png)
 
 
 Search form
 
-![](documentation/wireframes/search.png)
+![](documentation/Wireframes/search.png)
 
 
 Search Results
 
-![](documentation/wireframes/results.png)
+![](documentation/Wireframes/results.png)
 ### ERD
 Entity Relationship Diagram used for the project
-![](documentation/wireframes/ERD.png)
+![](documentation/Wireframes/ERD.png)
 ## Features
 
 ### Existing Features
+
+- Nav bar
+    - Contains links to all useful pages on site:
+        - Home
+        - Search
+        - Login
+        - Register
+        - Logout
+        - Reset Password
+        - Basket
+        - Checkout
+        - My Orders
+
+![](documentation/Features/navbar.png)
+![](documentation/Features/logged_navbar.png)
+
+- Index Page 
+    - Shows the 3 latest created books
+
+- Search
+    - Make a search for a book using either the Name, Genre, Author or multiple at the same time
+    - The similarity check returns a number from 0 to 1 so it is easy to change the threshold
+
+![](documentation/Features/searchform.png)
+![](documentation/Features/searchform_dropdown.png)
+
+- Results
+    - Once a search is made the results will be returned
+
+![](documentation/Features/results.png)
 
 ### Admin Features
 
