@@ -6,6 +6,7 @@ import books.models as bkm
 # Basket data stored as:
 #   {'book_id': quantity(int)}
 
+
 # TODO: This whole file can definatley be reduced to about 20 lines, or less
 class index(View):
     def get(self, request):
@@ -29,6 +30,7 @@ class index(View):
             }
         )
 
+
 class modify_class(View):
     def get(self, request, id, quantity, redirect_url='basket_index'):
         modify(request, id, quantity)
@@ -36,6 +38,7 @@ class modify_class(View):
             messages.success(request, 'Book has been added to basket!')
             return redirect(redirect_url, id)
         return redirect(redirect_url)
+
 
 def modify(request, id, quantity):
     if 'total' not in request.session:
@@ -83,6 +86,7 @@ class clear_view(View):
     def get(self, request):
         clear(request)
         return redirect('basket_index')
+
 
 def clear(request):
     if request.session.get('basket', False):
