@@ -20,12 +20,12 @@ def similar(a, b):
 
 class index(View):
     def get(self, request):
-        books = bkm.Book.objects.filter(available=True).order_by('id')
+        books = list(bkm.Book.objects.filter(available=True).order_by('id'))
         return render(
             request,
             'books/index.html',
             {
-                'books': books[3:]
+                'books': books[-3:]
             }
         )
 
