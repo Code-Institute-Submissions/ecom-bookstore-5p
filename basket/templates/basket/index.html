@@ -1,21 +1,30 @@
 {% extends "base.html" %}
 {% load static %}
 {% load tempmath %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/results.css' %}">
+{% endblock %}
+
 {% block content %}
-<table class="table">
-    <tr>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Remove</th>
-        <th>Remove</th>
-    </tr>
-    {% for b in basket%}
-    <tr>
-        <td>{{b.0.name}}</td>
-        <td>{{b.1}}</td>
-        <td><a href="{% url 'basket_modify' b.0.id -1 %}">Remove One</a></td>
-        <td><a href="{% url 'basket_remove' b.0.id %}">Remove All</a></td>
-    </tr>
-    {% endfor %}
-</table>
+{% if basket %}
+    <table class="table">
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Remove</th>
+            <th>Remove</th>
+        </tr>
+        {% for b in basket %}
+        <tr>
+            <td>{{b.0.name}}</td>
+            <td>{{b.1}}</td>
+            <td><a href="{% url 'basket_modify' b.0.id -1 %}">Remove One</a></td>
+            <td><a href="{% url 'basket_remove' b.0.id %}">Remove All</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+<h2>Your Basket Is Empty!</h2>
+{% endif %}
 {% endblock %}
