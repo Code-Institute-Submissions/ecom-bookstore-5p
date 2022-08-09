@@ -30,7 +30,7 @@
 ![](documentation/Testing/notify_already_signed.png)
 ## Admin
 
-# Basket
+## Basket
 - If you have no products in your basket a message will tell you 
 ![](documentation/Testing/empty_basket.png)
 
@@ -40,13 +40,24 @@
 - If you have an item in your basket it will appear in your basket
 ![](documentation/Testing/basket_items.png)
 
-# Checkout
+## Checkout
 - If you have items in your basket you will be met by a checkout form
 ![](documentation/Testing/successful_checkout.png)
 
 - Successfully filling out the checkout form will lead you to a stripe checkout form
 ![](documentation/Testing/stripe_checkout.png)
 
-# Orders
+- If basket is empty or out of stock the checkout form wont be shown, and you will be given a message
+![](documentation/Testing/checkout_empty_basket.png)
+## Orders
 - The my orders page will list all of your prior completed orders
 ![](documentation/Testing/my_orders.png)
+
+# Responsiveness
+- Responsive on a small sized window
+
+![](documentation/Testing/responsiveness_small.png)
+
+- Responsive on a desktop
+
+![](documentation/Testing/responsiveness_desktop.png)
