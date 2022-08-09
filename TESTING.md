@@ -39,3 +39,14 @@
 
 - If you have an item in your basket it will appear in your basket
 ![](documentation/Testing/basket_items.png)
+
+# Checkout
+- If you have items in your basket you will be met by a checkout form
+![](documentation/Testing/successful_checkout.png)
+
+- Successfully filling out the checkout form will lead you to a stripe checkout form
+![](documentation/Testing/stripe_checkout.png)
+
+# Orders
+- The my orders page will list all of your prior completed orders
+![](documentation/Testing/my_orders.png)
