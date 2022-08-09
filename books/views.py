@@ -25,7 +25,7 @@ class index(View):
             request,
             'books/index.html',
             {
-                'books': books[2:]
+                'books': books[3:]
             }
         )
 
