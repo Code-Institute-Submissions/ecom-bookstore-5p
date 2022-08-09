@@ -54,30 +54,48 @@ def modify(request, id, quantity):
             if request.session['basket'][str(id)] + quantity < 0:
                 quantity = -request.session['basket'][str(id)]
 
-            request.session['total'] += int(round(price_of_single * quantity, 2)*100)
+            request.session['total'] += int(
+                round(price_of_single * quantity, 2)*100
+            )
             request.session['basket'][str(id)] += quantity
         else:
             request.session['basket'][str(id)] = quantity
-            request.session['total'] += int(round(price_of_single * quantity, 2)*100)
+            request.session['total'] += int(
+                round(price_of_single * quantity, 2)*100
+            )
 
     else:
         request.session['basket'] = {}
         request.session['basket'][str(id)] = quantity
-        request.session['total'] += int(round(price_of_single * quantity, 2)*100)
+        request.session['total'] += int(
+            round(price_of_single * quantity, 2)*100
+        )
 
     if request.session['basket'][str(id)] <= 0:
         del request.session['basket'][str(id)]
 
     request.session.modified = True
 
+
 class remove(View):
     def get(self, request, id):
         if str(id) in request.session['basket']:
             book = bkm.Book.objects.get(id=id)
-            price_of_single = book.price * (1 - Decimal(book.discountPercent/100))
-            request.session['total'] -= int(round(price_of_single * request.session['basket'][str(id)], 2)*100)
+            price_of_single = (
+                book.price * (1 - Decimal(book.discountPercent/100))
+            )
+            request.session['total'] -= (
+                int(
+                    round(
+                        price_of_single * request.session['basket'][str(id)], 2
+                    )*100
+                )
+            )
             del request.session['basket'][str(id)]
-            messages.success(request, 'Book/s have been removed from your basket!')
+            messages.success(
+                request,
+                'Book/s have been removed from your basket!'
+            )
             request.session.modified = True
         return redirect('basket_index')
 

@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/modal.css' %}">
+{% endblock %}
+
+{% block postloadjs %}
+<script src="{% static 'js/modal_custom.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 <table>
     <thead>
@@ -16,11 +24,28 @@
             <td>{{d.id}}</td>
             <td>{{d.name}}</td>
             <td><a href="{% url 'modify_genre' d.id%}">Modify</a></td>
-            <td><a href="{% url 'delete_genre' d.id%}">Delete</a></td>
+            <td><button role="button" class="btn btn-danger" onclick="reveal('{% url 'delete_genre' d.id %}')">Delete</button></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
 <a href="{% url 'create_genre' %}">Create</a>
+
+
+<div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to delete this book?</p>
+        <a id="delete-button" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+
+
+<script>
+    function reveal(value){
+        modal.style.display = "block";
+        $("#delete-button")[0].href = value;
+    }
+</script>
 {% endblock %}
