@@ -108,7 +108,18 @@ Entity Relationship Diagram used for the project
 
 ![](documentation/Features/admin/admin_modify_genre.png)
 ### Other
+- Emails
+    - Using [signals](postoffice/signals.py), everytime the Book model is about to be changed and if the stock has changed from 0 an email will be sent to all those who wanted to be notified.
 
+- Custom Templates
+    - [group_check.py](bookstoreadmin/templatetags/group_check.py) a custom template tag to check the group of the user in the template
+    - [tempmath.py](basket/templatetags/tempmath.py)
+        - convert_total used to convert the session value 'total' into a readable value
+        - discount calculates the value of a book with a discount
+
+- [custom_converters.py](basket/custom_converters.py) used to allow negative numbers to be put into a url, this is so that negative numbers can be passed into "modify basket"
+
+- [custom_models.py](books/custom_models.py) has a custom model which only allows a value between two numbers, this is for selecting the discount, from 1 - 100
 ## CRUD
 
 ### Create
