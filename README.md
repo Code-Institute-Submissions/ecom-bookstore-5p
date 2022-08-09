@@ -121,21 +121,31 @@ Entity Relationship Diagram used for the project
 
 - [custom_models.py](books/custom_models.py) has a custom model which only allows a value between two numbers, this is for selecting the discount, from 1 - 100
 ## CRUD
-
 ### Create
+- Creating a new Book
 
+![](documentation/Features/admin/admin_create_book.png)
 ### Read
+- Viewing Books
 
+![](documentation/Features/admin/admin_books.png)
+
+- View Search Results
+
+![](documentation/Features/results.png)
 ### Update
+- Modify Book
 
+![](documentation/Features/admin/admin_modify_book.png)
 ### Delete
+- Delete Book
 
-### Multiple In One
+![](documentation/Features/admin/admin_delete.png)
 
 ## Features left to implement
 
 # Testing
-
+See [TESTING.md](TESTING.md)
 # Deployment
 
 # Local Deployment
