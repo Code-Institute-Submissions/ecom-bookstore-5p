@@ -73,8 +73,40 @@ Entity Relationship Diagram used for the project
 
 ![](documentation/Features/results.png)
 
-### Admin Features
 
+- Checkout
+    - After the initial checkout you are sent to a page with stripe to make the payment
+
+![](documentation/Features/checkout.png)
+![](documentation/Features/checkout_stripe.png)
+
+- My Orders
+    - See a list of all your prior orders
+
+![](documentation/Features/my_orders.png)
+### Admin Features
+- Books
+    - See a list of all books
+    - Delete, Modify or Create a new book using buttons on the right
+
+![](documentation/Features/admin/admin_books.png)
+
+- Create Book
+
+![](documentation/Features/admin/admin_create_book.png)
+
+- Add genres to a book
+
+![](documentation/Features/admin/admin_add_genres.png)
+
+- Genres
+    - See a list of Genres that can be added to a book
+    - Modify the name of a Genre
+    - Delete Genres
+
+![](documentation/Features/admin/admin_genre_list.png)
+
+![](documentation/Features/admin/admin_modify_genre.png)
 ### Other
 
 ## CRUD
