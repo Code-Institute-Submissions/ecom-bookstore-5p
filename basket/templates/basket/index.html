@@ -24,6 +24,12 @@
         </tr>
         {% endfor %}
     </table>
+    <hr>
+    {% if user.is_authenticated %}
+    <h2><a>Checkout Now!</a></h2>
+    {% else %}
+    <h2>Please <a href="{% url 'account_login' %}">Login</a> to checkout</h2>
+    {% endif %}
 {% else %}
 <h2>Your Basket Is Empty!</h2>
 {% endif %}
