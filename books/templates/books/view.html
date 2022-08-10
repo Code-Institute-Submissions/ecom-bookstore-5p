@@ -12,30 +12,30 @@
 
 {% block content %}
 <h1>{{request.session.message}}</h1>
-<li>
-    <ul>{{ book_data.name }}</ul>
-    <ul>{{ book_data.description }}</ul>
-    <ul>Author: {{ book_data.author }}</ul>
-    <ul>{{ book_data.pages }} pages</ul>
+<ul>
+    <li>{{ book_data.name }}</li>
+    <li>{{ book_data.description }}</li>
+    <li>Author: {{ book_data.author }}</li>
+    <li>{{ book_data.pages }} pages</li>
     {% if book_data.discountPercent != 0 %}
-        <ul>{{ book_data.discountPercent }}% off</ul>
-        <ul><s>£{{ book_data.price }}</s> £{{ price }}</ul>
+        <li>{{ book_data.discountPercent }}% off</li>
+        <li><s>£{{ book_data.price }}</s> £{{ price }}</li>
     {% else %}
-        <ul>£{{ book_data.price }}</ul>
+        <li>£{{ book_data.price }}</li>
     {% endif %}
 
     {% if book_data.available and book_data.stock > 0 %}
-    <ul>Available</ul>
-    <ul><a href="{% url 'basket_modify' book_data.id 1 'view_book' %}">Add to basket</a></ul>
+    <li>Available</li>
+    <li><a href="{% url 'basket_modify' book_data.id 1 'view_book' %}">Add to basket</a></li>
     {% else %}
-    <ul>Not Available</ul>
+    <li>Not Available</li>
     <button id="myBtn">Notify Me!</button>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>Enter Your Email To Recieve Notifcations About This Book!</p>
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="mlitipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <hr>
@@ -44,7 +44,7 @@
         </div>
     </div> 
     {% endif %}
-</li>
+</ul>
 <script>
 
 </script>
