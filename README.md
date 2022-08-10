@@ -143,6 +143,11 @@ Entity Relationship Diagram used for the project
 ![](documentation/Features/admin/admin_delete.png)
 
 ## Features left to implement
+- Favorites
+    - Add the ability to have a list of favorites
+- e-books
+    - Have the user able to buy e-books and read them from the site or via download
+    - Have users able to upload there own e-books to be sold
 
 # Testing
 See [TESTING.md](TESTING.md)
