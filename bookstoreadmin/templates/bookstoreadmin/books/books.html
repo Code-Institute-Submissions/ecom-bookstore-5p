@@ -11,6 +11,8 @@
 {% endblock %}
 
 {% block content %}
+<a href="{% url 'create_book' %}">Create</a>
+
 <table class="table">
     <thead>
         <tr>
@@ -25,8 +27,8 @@
             <th>Available</th>
             <th>Stock</th>
             <th>Genres</th>
+            <th>Modify</th>            
             <th>Modify Genres</th>
-            <th>Modify</th>
             <th>Delete</th>
         </tr>
     </thead>
@@ -49,15 +51,15 @@
                 {{ g.genre.name }},
                 {% endfor %}
             </td>
+            <td><a href="{% url 'modify_book' b.0.id%}">Modify</a></td>            
             <td><a href="{% url 'modify_book_genres' b.0.id %}">Modify Book Genres</a></td>
-            <td><a href="{% url 'modify_book' b.0.id%}">Modify</a></td>
             <td><button role="button" class="btn btn-danger" onclick="reveal('{% url 'delete_book' b.0.id %}')">Delete</button></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<a href="{% url 'create_book' %}">Create</a>
+
 
 
 <div id="bookingModal" class="modal">
