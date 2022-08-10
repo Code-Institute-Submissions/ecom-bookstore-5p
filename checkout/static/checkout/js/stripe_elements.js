@@ -1,12 +1,12 @@
+/* jshint esversion: 11, jquery: true */
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var _clientSecret = $('#id_client_secret').text().slice(1, -1);
 var stripe = Stripe(stripePublicKey);
 
 const options = {
     clientSecret: _clientSecret
-}
+};
 
-/* jshint esversion: 11, jquery: true */
 var elements = stripe.elements(options);
 const paymentElement = elements.create('payment');
 paymentElement.mount('#payment-element');

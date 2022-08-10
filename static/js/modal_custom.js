@@ -1,4 +1,4 @@
-// Modal Code
+/* jshint esversion: 11, jquery: true */
 
 var modal = document.getElementById("bookingModal");
 
