@@ -5,7 +5,11 @@ from django.contrib.auth.models import User
 
 class NewsletterForm(forms.Form):
     subject = forms.CharField(min_length=3, max_length=200)
-    body = forms.CharField(min_length=5, max_length=2000)
+    body = forms.CharField(
+        min_length=5,
+        max_length=2000,
+        widget=forms.Textarea
+    )
 
 
 class NotifySignUpForm(forms.Form):
