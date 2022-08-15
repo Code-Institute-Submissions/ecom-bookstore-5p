@@ -22,7 +22,7 @@ urlpatterns = [
     ),
     path(
         'remove/<int:id>',
-        bv.remove.as_view(),
+        bv.remove_class.as_view(),
         name='basket_remove'
     ),
     path(

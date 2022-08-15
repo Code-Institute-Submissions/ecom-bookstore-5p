@@ -77,27 +77,31 @@ def modify(request, id, quantity):
     request.session.modified = True
 
 
-class remove(View):
+class remove_class(View):
     def get(self, request, id):
-        if str(id) in request.session['basket']:
-            book = bkm.Book.objects.get(id=id)
-            price_of_single = (
-                book.price * (1 - Decimal(book.discountPercent/100))
-            )
-            request.session['total'] -= (
-                int(
-                    round(
-                        price_of_single * request.session['basket'][str(id)], 2
-                    )*100
-                )
-            )
-            del request.session['basket'][str(id)]
-            messages.success(
-                request,
-                'Book/s have been removed from your basket!'
-            )
-            request.session.modified = True
+        remove(request, id)
         return redirect('basket_index')
+
+
+def remove(request, id):
+    if str(id) in request.session['basket']:
+        book = bkm.Book.objects.get(id=id)
+        price_of_single = (
+            book.price * (1 - Decimal(book.discountPercent/100))
+        )
+        request.session['total'] -= (
+            int(
+                round(
+                    price_of_single * request.session['basket'][str(id)], 2
+                )*100
+            )
+        )
+        del request.session['basket'][str(id)]
+        messages.success(
+            request,
+            'Book/s have been removed from your basket!'
+        )
+        request.session.modified = True
 
 
 class clear_view(View):
