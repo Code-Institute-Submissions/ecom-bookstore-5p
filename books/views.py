@@ -59,7 +59,7 @@ class results(View):
 
             if request.GET.get('genre'):
                 book_genres = bkm.BookGenre.objects.filter(book=b)
-                book_genres = [x.genre.id for x in list(book_genres)]    
+                book_genres = [x.genre.id for x in list(book_genres)]
                 options += 1
                 if int(request.GET.get('genre')) in book_genres:
                     valid.append(True)

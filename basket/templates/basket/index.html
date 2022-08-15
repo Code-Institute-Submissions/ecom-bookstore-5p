@@ -26,7 +26,7 @@
     </table>
     <hr>
     {% if user.is_authenticated %}
-    <h2><a>Checkout Now!</a></h2>
+    <h2><a href="{% url 'checkout_page' %}">Checkout Now!</a></h2>
     {% else %}
     <h2>Please <a href="{% url 'account_login' %}">Login</a> to checkout</h2>
     {% endif %}

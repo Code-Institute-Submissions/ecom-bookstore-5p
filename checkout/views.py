@@ -8,7 +8,7 @@ import books.models as bkm
 import checkout.models as chm
 import stripe
 import os
-from basket.views import modify, clear
+from basket.views import modify, clear, remove
 
 class checkout(LoginRequiredMixin, View):
     def get(self, request):
@@ -16,15 +16,19 @@ class checkout(LoginRequiredMixin, View):
             basket = request.session['basket']
 
             template_basket = []
-
+            remove_list = []
             total = 0
 
             status = True
             for bookid, quantity in basket.items():
                 book = bkm.Book.objects.get(id=bookid)
+
                 if book.stock == 0 or not book.available:
                     status = False
-                elif book.stock - quantity < 0:
+                    messages.warning(request, f'"{book.name}" is not available')
+                    remove_list.append(int(bookid))
+                    continue
+                elif book.stock - quantity <= 0:
                     messages.warning(request, f'Not enough of "{book.name}" in stock, only {book.stock} has been kept in basket')
                     modify(request, bookid, -(quantity - book.stock))
                     quantity = book.stock
@@ -43,8 +47,9 @@ class checkout(LoginRequiredMixin, View):
                     ]
                 )
 
-            print(len(template_basket))
-            print(len([h for h in template_basket if not h[5]]))
+            for item in remove_list:
+                remove(request, item)
+
             if len([h for h in template_basket if not h[5]]) == len(template_basket):
                 return render(
                     request,
