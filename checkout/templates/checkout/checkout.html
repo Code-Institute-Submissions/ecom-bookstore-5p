@@ -24,7 +24,6 @@
             <td>{{row.2}}</td>
             <td>{{row.3}}</td>
             <td>{{row.4}}</td>
-            <td>{{row.5}}</td>
             {% if not row.5 %}
                 <td>NOT AVAILABLE</td>
             {% endif %}
@@ -39,25 +38,5 @@
     </form>
 {% endif %}
 
-
-<style>
-    table {
-        border-collapse: collapse;
-    }
-
-    td {
-        position: relative;
-        padding: 5px 10px;
-    }
-
-    tr.strikeout td:before {
-        content: " ";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        border-bottom: 1px solid #111;
-        width: 100%;
-    }
-</style>
 {% endblock %}
 
