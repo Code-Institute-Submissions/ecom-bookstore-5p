@@ -4,6 +4,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/view_book.css' %}">
 {% endblock %}
 
 {% block postloadjs %}
@@ -12,45 +13,55 @@
 
 {% block content %}
 <h1>{{request.session.message}}</h1>
-<ul>
-    <li>{{ book_data.name }}</li>
-    <li>{{ book_data.description }}</li>
-    <li>Author: {{ book_data.author }}</li>
-    <li>{{ book_data.pages }} pages</li>
-    {% if book_data.discountPercent != 0 %}
-        <li>{{ book_data.discountPercent }}% off</li>
-        <li><s>£{{ book_data.price }}</s> £{{ price }}</li>
-    {% else %}
-        <li>£{{ book_data.price }}</li>
-    {% endif %}
 
-    {% if book_data.available and book_data.stock > 0 %}
-    <li>Available</li>
-    <li><a href="{% url 'basket_modify' book_data.id 1 'view_book' %}">Add to basket</a></li>
-    {% else %}
-    <li>Not Available</li>
-    <button id="myBtn">Notify Me!</button>
-
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Enter Your Email To Recieve Notifcations About This Book!</p>
-            <form method="post" enctype="mlitipart/form-data">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <hr>
-                <button type="submit">Sign up</button>
-            </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4 box-shadow">
+            <img class="card-img-top card-image" src="{{book_data.image}}" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">{{ book_data.name }}</h4>
+                    <h6 class="card-title">Author: {{ book_data.author }}</h6>               
+                    <p class="card-text">
+                        {{ book_data.description }}
+                        <br>
+                        <br>
+                        {{ book_data.pages }} pages
+                        <br>
+                        <br>
+                        {% if book_data.discountPercent != 0 %}
+                            {{ book_data.discountPercent }}% off
+                            <s>£{{ book_data.price }}</s> £{{ price }}
+                        {% else %}
+                            £{{ book_data.price }}
+                        {% endif %}
+                    </p>
+                    <p class="card-text">
+                        {% if book_data.available and book_data.stock > 0 %}
+                        Available
+                        <a href="{% url 'basket_modify' book_data.id 1 'view_book' %}">Add to basket</a>
+                        {% else %}
+                        Not Available
+                        <button id="myBtn">Notify Me!</button>
+                    
+                        <div id="myModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <p>Enter Your Email To Recieve Notifcations About This Book!</p>
+                                <form method="post" enctype="mlitipart/form-data">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <hr>
+                                    <button type="submit">Sign up</button>
+                                </form>
+                            </div>
+                        </div> 
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
         </div>
-    </div> 
-    {% endif %}
-</ul>
-<script>
-
-</script>
+    </div>
+</div>
 
 {% endblock %}
-
-
-
-

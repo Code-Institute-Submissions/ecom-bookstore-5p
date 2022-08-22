@@ -1,0 +1,22 @@
+.card-image{
+    height:300px;
+    object-fit: cover;
+}
+
+@media only screen and (min-width: 600px) {
+    .body{
+        width:80%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .body{
+        width:40%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .body{
+        width:35%;
+    }
+}
