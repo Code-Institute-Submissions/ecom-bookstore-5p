@@ -13,36 +13,38 @@ import os
 
 class write_newsletter(View):
     def get(self, request):
-        if Group.objects.filter(user=request.user, name='newsletter_writer').exists():
-            form = NewsletterForm()
-            return render(
-                request,
-                'postoffice/newsletter.html',
-                {
-                    'form': form
-                }
-            )
+        if request.user.is_authenticated:
+            if Group.objects.filter(user=request.user, name='newsletter_writer').exists():
+                form = NewsletterForm()
+                return render(
+                    request,
+                    'postoffice/newsletter.html',
+                    {
+                        'form': form
+                    }
+                )
         messages.error(request, 'You dont have permission to be here!')
         return redirect('index_bookstore')
 
     def post(self, request):
-        if Group.objects.filter(user=request.user, name='newsletter_writer').exists():
-            form = NewsletterForm(request.POST)
-            if form.is_valid():
-                emails = Newsletter.objects.all()
-                current_site = Site.objects.get_current()
+        if request.user.is_authenticated:
+            if Group.objects.filter(user=request.user, name='newsletter_writer').exists():
+                form = NewsletterForm(request.POST)
+                if form.is_valid():
+                    emails = Newsletter.objects.all()
+                    current_site = Site.objects.get_current()
 
-                # TODO: By making it cancel via id anyone could just type in numbers and cancel random peoples newsletters, get around this by sending a confirmation email?
-                for e in emails:
-                    email = EmailMessage(
-                        subject=form.cleaned_data['subject'],
-                        body=form.cleaned_data['body']+f'\n{current_site.domain}/cancel_newsletter/{e.id}',
-                        from_email=os.environ.get('EMAIL_HOST_USER'),
-                        bcc=[e.email]
-                    )
-                    email.send()
+                    # TODO: By making it cancel via id anyone could just type in numbers and cancel random peoples newsletters, get around this by sending a confirmation email?
+                    for e in emails:
+                        email = EmailMessage(
+                            subject=form.cleaned_data['subject'],
+                            body=form.cleaned_data['body']+f'\n{current_site.domain}/cancel_newsletter/{e.id}',
+                            from_email=os.environ.get('EMAIL_HOST_USER'),
+                            bcc=[e.email]
+                        )
+                        email.send()
 
-                return redirect('index_bookstore')
+                    return redirect('index_bookstore')
         messages.error(request, 'You dont have permission to be here!')
         return redirect('index_bookstore')
 
