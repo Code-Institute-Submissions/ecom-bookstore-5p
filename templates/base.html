@@ -33,7 +33,7 @@
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{% url 'index_bookstore' %}">Bookstore</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -49,45 +49,13 @@
               <a class="nav-link" href="{% url 'books_search' %}">Search</a>
             </li>
 
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'signup_newsletter' %}">Newsletter</a>
+            </li>
 
-            {% if user.is_authenticated %}
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'checkout_page' %}">Checkout</a>
             </li>
-
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'see_orders' %}">My Orders</a>
-            </li>
-
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
-            </li>
-
-            {% else %}
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'account_login' %}">Login</a>
-            </li>
-
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
-            </li>
-
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'account_reset_password' %}">Reset Password</a>
-            </li>
-            {% endif %} 
-
-            {% if user|has_group:"site_admin" or user.is_superuser %}
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'admin_index' %}">Admin</a>
-            </li>     
-            {% endif %}
-
-            {% if user|has_group:"newsletter_writer" %}
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'write_newsletter' %}">Write Newsletter</a>
-            </li>     
-            {% endif %}
 
             <li class="nav-item">
               <a class="nav-link" href="{% url 'basket_index' %}">
@@ -95,8 +63,30 @@
                 Basket Total : £{{ request.session.total|convert_total }}
                 {% else %}
                 Basket Total : £0
-              {% endif %}
+                {% endif %}
               </a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown04">
+                {% if user|has_group:"site_admin" or user.is_superuser %}
+                  <a class="dropdown-item" href="{% url 'admin_index' %}">Admin</a>
+                {% endif %}
+    
+                {% if user|has_group:"newsletter_writer" %}
+                  <a class="dropdown-item" href="{% url 'write_newsletter' %}">Write Newsletter</a>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                  <a class="dropdown-item" href="{% url 'checkout_page' %}">Checkout</a>
+                  <a class="dropdown-item" href="{% url 'see_orders' %}">My Orders</a>
+                  <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                {% else %}
+                  <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
+                  <a class="dropdown-item" href="{% url 'account_signup' %}">Register</a>
+                {% endif %} 
+              </div>
             </li>
           </ul>
           <form class="form-inline my-2 my-md-0" method="get" enctype="multipart/form-data" action="{% url 'search_result' %}">
@@ -104,7 +94,7 @@
           </form>
         </div>
       </nav>
-      </header>
+    </header>
   
       {% if messages %}
       <section>
