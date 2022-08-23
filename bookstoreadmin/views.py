@@ -9,25 +9,8 @@ import books.models as bkm
 import bookstoreadmin.forms as forms
 import cloudinary
 
-try:
-    if not Group.objects.filter(name='site_admin').exists():
-        new_group, created = Group.objects.get_or_create(name='site_admin')
-        perms = Permission.objects.filter(
-                Q(content_type__app_label='books') |
-                Q(content_type__app_label='checkout')
-            )
-        for p in perms:
-            permission = Permission.objects.get(
-                codename=p.codename,
-                name=p.name,
-                content_type=p.content_type
-            )
-            new_group.permissions.add(permission)
-except:
-    pass
-
-
 PREFIX = 'bookstoreadmin/'
+
 #region helpers
 def check_admin(logged_user):
     return logged_user.is_superuser or Group.objects.filter(
