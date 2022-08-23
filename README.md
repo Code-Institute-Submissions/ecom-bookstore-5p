@@ -84,6 +84,11 @@ Entity Relationship Diagram used for the project
     - See a list of all your prior orders
 
 ![](documentation/features/my_orders.png)
+
+- Newsletter
+    - Users can sign up for a newsletter
+
+![](documentation/features/newsletter_signup.png)
 ### Admin Features
 - Books
     - See a list of all books
@@ -107,6 +112,12 @@ Entity Relationship Diagram used for the project
 ![](documentation/features/admin/admin_genre_list.png)
 
 ![](documentation/features/admin/admin_modify_genre.png)
+
+
+- Newsletter
+    - A user with in the group 'newsletter_writer' can use this page to write a newsletter and send it out to all who have signedup for newsletters
+
+![](documentation/features/admin/newsletter_create.png)
 ### Other
 - Emails
     - Using [signals](postoffice/signals.py), everytime the Book model is about to be changed and if the stock has changed from 0 an email will be sent to all those who wanted to be notified.
