@@ -38,6 +38,7 @@ Search Results
 ![](documentation/wireframes/results.png)
 ### ERD
 Entity Relationship Diagram used for the project
+All tables shown are custom tables, UserID refers to default table made by django
 ![](documentation/wireframes/erd.png)
 ## Features
 
