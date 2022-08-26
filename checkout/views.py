@@ -141,6 +141,7 @@ class success(LoginRequiredMixin, View):
         basket = request.session['basket']
         om = chm.Order.objects.get(payment_intent=request.GET.get('payment_intent'))
 
+        body = ''
         for bookid, quantity in basket.items():
             book = bkm.Book.objects.get(id=bookid)
             book.stock -= quantity
@@ -152,6 +153,19 @@ class success(LoginRequiredMixin, View):
             basket_item.quantity = quantity
             basket_item.priceOnPurchase = basket_item.book.price
             basket_item.save()
+            body += (
+                f'{basket_item.book} ' +
+                f', {basket_item.priceOnPurchase}' +
+                f' - x{basket_item.quantity}\n'
+            )
+
+        email = EmailMessage(
+            subject='Thank you for your purchase!',
+            body='Thank you for your purchase!\n'+body,
+            from_email=os.environ.get('EMAIL_HOST_USER'),
+            bcc=[om.email]
+
+        )
         clear(request)
         return render(request, 'checkout/success.html')
 
