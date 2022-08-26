@@ -10,6 +10,9 @@ I used github [issues](https://github.com/edenobrega/ecom-bookstore-5p/issues) t
 
 ![](documentation/user_stories/issues_stories.png)
 ![](documentation/user_stories/projects_stories.png)
+
+## Business Model
+The purpose of this site is to provide a business with an online store to sell their books from, with a built in admin page for creating books and modifying them, an accounts system for users, a search bar for users to find books and a fully working checkout system using stripe to allow users to purchase one or more books.
 ## UX
 
 ### Wireframes
@@ -160,13 +163,66 @@ All tables shown are custom tables, UserID refers to default table made by djang
 - e-books
     - Have the user able to buy e-books and read them from the site or via download
     - Have users able to upload there own e-books to be sold
+- Shipping
+    - Have a backend for new orders to be listed for the website owners to then use to ship the items and check orders as sent
 
 # Testing
 See [TESTING.md](TESTING.md)
 # Deployment
 
-# Local Deployment
+. You will need a [Cloudinary](https://cloudinary.com) account to be able to store images and static files
+    1. Go to [Cloudinary](https://cloudinary.com)
+    2. Create an account
+    3. Go to your [console](https://cloudinary.com/console/)
+    4. A square should be present with the header "Api Environment variable", copy this value for later
+2. Create an account on heroku and login
+3. In Heroku, select new and "Create new app"
+4. Select a unique name and select a region for hosting, and create the app
+1. Next we need to add the "Heroku Postgres" add-on and get the database "URI"
+    1. Navigate to the Resources tab 
+    2. A search bar saying "Quickly add add-ons from Elements" should be present, in it search for "Heroku Postgres"
+    3. Add the add-on, and in the popup which asks for a "Plan name" select "Hobby Dev - Free"
+    1. On the "Resources tab" select the add-on we have added, and select the "Settings" tab
+    1. A section titled "Database Credentials" will have a button saying "View Credentials..." select it and copy the the string given under "URI" and keep it somewhere safe for a later step
+5. Navigate to settings for your new app, scroll down and click the button "Reveal Config Vars" and add the following:
+    6. A variable called "CLOUDINARY_URL" and paste in the value from step 1, make sure you remove the "CLOUDINARY_URL=" at the start of the key
+    7. A variable called "DATABASE_URL" and add the URI gotten from step 5
+    8. A variable called "DJANGO_SECRET" and enter anything you want
+    9. Another variable called "EMAIL_HOST_PASS" being the email accounts password
+    8. A variable called "EMAIL_HOST_USER" being the email for the above account
+    9. For the following stripe keys, logon [here](https://dashboard.stripe.com/test/dashboard) and you will be lead to the dashboard and on the right will be the keys we need for below
+        1. Create a variable called "STRIPE_PUBLIC_KEY" and enter the key that is on the dashboard called "Publishable key"
+        2. Create another variable called "STRIPE_SECRET_KEY" and enter the key labelled "Secret key" on the stripe dashboard
+    8. Create another variable called "SECRET_KEY" and name it anything you want
+    9. If you want to deploy the app in DEBUG mode then follow the indented step, if not skip it
+        1. Create the final variable "DEBUG" and set it to FALSE, or delete it/don't create it at all
+1. 
 
+# Local Deployment
+In order to make a local copy of this project, you can clone it. In your IDE Terminal, type the following command to clone my repository:
+
+- `git clone https://github.com/edenobrega/ecom-bookstore-5p.git`
+
+Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/edenobrega/ecom-bookstore-5p)
+
+1. Create a file in the root called `env.py`, insde of the file copy the following:
+    1. `import os`
+    2. os.environ["DJANGO_SECRET"] = ""
+    3. os.environ['STRIPE_PUBLIC_KEY'] = ''
+    4. os.environ['STRIPE_SECRET_KEY'] = ''
+    5. os.environ['EMAIL_HOST_PASS'] = ''
+    6. os.environ['EMAIL_HOST_USER'] = ''
+    7. os.environ['DEVELOPMENT'] = ''
+    8. os.environ['DATABASE_URL'] = ''
+    9. os.environ['CLOUDINARY_URL'] = ''
+
+The following steps will all be done in your IDE Terminal
+1. pip3 install -r requirements.txt
+2. Eenter `python3 manage.py makemigrations`
+3. And then enter `python3 manage.py migrate`
+4. To run the site enter `python3 manage.py runserver`
 ## Technologies
 
 ## Credits
