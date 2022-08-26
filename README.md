@@ -196,7 +196,10 @@ See [TESTING.md](TESTING.md)
     8. Create another variable called "SECRET_KEY" and name it anything you want
     9. If you want to deploy the app in DEBUG mode then follow the indented step, if not skip it
         1. Create the final variable "DEBUG" and set it to FALSE, or delete it/don't create it at all
-1. 
+1. To deploy, select the "Deploy" tab in the navbar
+1. Scroll down to the "Deployment method" section and connect 
+1. Once connected, select the repository to be used
+1. At the bottom of the deploy page, select "Deploy Branch" 
 
 # Local Deployment
 In order to make a local copy of this project, you can clone it. In your IDE Terminal, type the following command to clone my repository:
