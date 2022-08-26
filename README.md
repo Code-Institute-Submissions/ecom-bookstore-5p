@@ -170,7 +170,7 @@ All tables shown are custom tables, UserID refers to default table made by djang
 See [TESTING.md](TESTING.md)
 # Deployment
 
-. You will need a [Cloudinary](https://cloudinary.com) account to be able to store images and static files
+1. You will need a [Cloudinary](https://cloudinary.com) account to be able to store images and static files
     1. Go to [Cloudinary](https://cloudinary.com)
     2. Create an account
     3. Go to your [console](https://cloudinary.com/console/)
