@@ -107,11 +107,17 @@
       </section>
       {% endif %}
 
-    <div class="body">
+    <main class="body">
     {% block content %}
 
     {% endblock %}
-    </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <span class="text-muted">Created by <a rel="nofollow" href="https://github.com/edenobrega/ecom-bookstore-5p">Enrique De Nobrega</a></span>
+      </div>
+    </footer>
 
     {% block postloadjs %}
     <!-- Bootstrap core JavaScript
