@@ -1,6 +1,7 @@
 # Bookstore
-A website for Buying Books
-See [here]() for the deployed site.
+A website for Buying Books.
+
+See [here](https://bookstore-5p.herokuapp.com/) for the deployed site.
 
 ### Note: 
 See [Features](#features=left-to-implement) about current limitations.

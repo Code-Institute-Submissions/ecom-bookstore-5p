@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/404.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="four-oh-four">
     <h2>The page you are looking for isn't available.</h2>

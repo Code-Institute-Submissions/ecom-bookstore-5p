@@ -65,12 +65,12 @@
 # Code Validation
 - Validated using https://validator.w3.org
 
--[Basket](documentation/testing/validation/html/basket.png)
--[Checkout](documentation/testing/validation/html/checkout.png)
--[Index](documentation/testing/validation/html/index.png)
--[Login](documentation/testing/validation/html/login.png)
--[Newsletter Signup](documentation/testing/validation/html/newsletter_signup.png)
--[Results](documentation/testing/validation/html/results.png)
--[Search](documentation/testing/validation/html/search.png)
--[Signup](documentation/testing/validation/html/signup.png)
--[View Book](documentation/testing/validation/html/view_book.png)
+-![Basket](documentation/testing/validation/html/basket.png)
+-![Checkout](documentation/testing/validation/html/checkout.png)
+-![Index](documentation/testing/validation/html/index.png)
+-![Login](documentation/testing/validation/html/login.png)
+-![Newsletter Signup](documentation/testing/validation/html/newsletter_signup.png)
+-![Results](documentation/testing/validation/html/results.png)
+-![Search](documentation/testing/validation/html/search.png)
+-![Signup](documentation/testing/validation/html/signup.png)
+-![View Book](documentation/testing/validation/html/view_book.png)
