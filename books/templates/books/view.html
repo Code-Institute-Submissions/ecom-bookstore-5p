@@ -12,7 +12,9 @@
 {% endblock %}
 
 {% block content %}
+{% if request.session.message %}
 <h1>{{request.session.message}}</h1>
+{% endif %}
 
 <div class="container">
     <div class="row">
@@ -36,7 +38,7 @@
                             £{{ book_data.price }}
                         {% endif %}
                     </p>
-                    <p class="card-text">
+                    <div class="card-text">
                         {% if book_data.available and book_data.stock > 0 %}
                         Available
                         <a href="{% url 'basket_modify' book_data.id 1 'view_book' %}">Add to basket</a>
@@ -48,7 +50,7 @@
                             <div class="modal-content">
                                 <span class="close">&times;</span>
                                 <p>Enter Your Email To Recieve Notifcations About This Book!</p>
-                                <form method="post" enctype="mlitipart/form-data">
+                                <form method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     {{ form|crispy }}
                                     <hr>
@@ -57,7 +59,7 @@
                             </div>
                         </div> 
                         {% endif %}
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
