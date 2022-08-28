@@ -63,6 +63,7 @@
 ![](documentation/testing/responsiveness_desktop.png)
 
 # Code Validation
+## HTML
 - Validated using https://validator.w3.org
 
 -![Basket](documentation/testing/validation/html/basket.png)
@@ -74,3 +75,25 @@
 -![Search](documentation/testing/validation/html/search.png)
 -![Signup](documentation/testing/validation/html/signup.png)
 -![View Book](documentation/testing/validation/html/view_book.png)
+
+## CSS
+[404.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2F404.b8933638c528.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+[base.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fbase.ab6825621926.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+[login.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Flogin.429c974df45f.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+[modal.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fmodal.379f42c59d9b.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+[results.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fresults.02d627fe6016.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+[view_book.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fview_book.da406adcef4e.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+## jscript
+Used [jshint](https://jshint.com/) to validate my javascript files
+
+custom.js
+![](documentation/testing/validation/jscript/modal.png)
+
+modal_custom.js
+![](documentation/testing/validation/jscript/custom_modal.png)
