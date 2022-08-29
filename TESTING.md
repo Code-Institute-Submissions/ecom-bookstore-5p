@@ -77,6 +77,8 @@
 -![View Book](documentation/testing/validation/html/view_book.png)
 
 ## CSS
+Used [w3schools](https://jigsaw.w3.org/css-validator/) to validate my css files.
+
 [404.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2F404.b8933638c528.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
 [base.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fbase.ab6825621926.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
