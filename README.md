@@ -242,3 +242,6 @@ The following steps will all be done in your IDE Terminal
 - To deploy the website I used [Heroku](https://dashboard.heroku.com/)
 - To handle payments I used [Stripe](https://stripe.com/gb)
 ## Credits
+Images used in facebook mock up
+[Library 1](https://pixabay.com/photos/bookcases-books-bookshelves-1869616/)
+[Library 2](https://pixabay.com/photos/library-books-tv-multimedia-room-849797/)
