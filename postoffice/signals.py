@@ -20,7 +20,12 @@ def email_before_change(sender, instance, **kwargs):
 
         email = EmailMessage(
             subject=f'{instance.name} Is Now Back In Stock!',
-            body=f'{instance.name} is back in stock, you can purchase it here from this link: <a href="https://bookstore-5p.herokuapp.com/books/view/{id}">Buy Me!</a>',
+            body=(
+                f'{instance.name} is back in stock, you can purchase it here '
+                'from this link: <a'
+                f' href="https://bookstore-5p.herokuapp.com/books/view/{id}">'
+                'Buy Me!</a>'
+            ),
             from_email=os.environ.get('EMAIL_HOST_USER'),
             bcc=[e.email for e in emails]
         )
@@ -32,7 +37,12 @@ def email_before_change(sender, instance, **kwargs):
 
         email = EmailMessage(
             subject=f'{instance.name} Is Now Available For Purchase!',
-            body=f'{instance.name} is ready for you to buy, you can purchase it here from this link: <a href="https://bookstore-5p.herokuapp.com/books/view/{id}">Buy Me!</a>',
+            body=(
+                f'{instance.name} is ready for you to buy, '
+                'you can purchase it here from this link: <a'
+                f' href="https://bookstore-5p.herokuapp.com/books/view/{id}">'
+                'Buy Me!</a>'
+            ),
             from_email=os.environ.get('EMAIL_HOST_USER'),
             bcc=[e.email for e in emails]
         )
