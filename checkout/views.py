@@ -182,8 +182,8 @@ class success(LoginRequiredMixin, View):
             body='Thank you for your purchase!\n'+body,
             from_email=os.environ.get('EMAIL_HOST_USER'),
             bcc=[om.email]
-
         )
+        email.send()
         clear(request)
         return render(request, 'checkout/success.html')
 
