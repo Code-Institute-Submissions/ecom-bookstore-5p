@@ -213,7 +213,7 @@ Alternatively, if using Gitpod, you can click below to create your own workspace
 
 1. Create a file in the root called `env.py`, insde of the file copy the following:
     1. `import os`
-    2. os.environ["DJANGO_SECRET"] = ""
+    2. os.environ["DJANGO_SECRET"] = ''
     3. os.environ['STRIPE_PUBLIC_KEY'] = ''
     4. os.environ['STRIPE_SECRET_KEY'] = ''
     5. os.environ['EMAIL_HOST_PASS'] = ''
@@ -228,5 +228,17 @@ The following steps will all be done in your IDE Terminal
 3. And then enter `python3 manage.py migrate`
 4. To run the site enter `python3 manage.py runserver`
 ## Technologies
-
+- I used [git](https://git-scm.com/) for version control and storage.
+- To help with using git, I used [github](https://github.com/).
+- I used [github projects]() to keep track of where I was in my project
+- I used [html](https://en.wikipedia.org/wiki/HTML) to design the site.
+- And [CSS](https://en.wikipedia.org/wiki/CSS) to style the site.
+- For most of the sites layout ive used [Bootstrap](https://getbootstrap.com/) and its many [examples](https://getbootstrap.com/docs/5.2/examples/) to help with quick development
+- Using [Django](https://www.djangoproject.com/) to create the backend to the site
+- [Javascript](https://en.wikipedia.org/wiki/JavaScript) and [JQuery](https://jquery.com/) was used for some forms to help with sending lists in forms
+- To help with styling I used a css debugger to help me with things like positioning and size: [link](https://github.com/benscabbia/x-ray).
+- For my IDE I used Gitpod, [link](https://www.gitpod.io/).
+- To host static files like images and css i used [Cloudinary](https://cloudinary.com/) and its django library "cloudinary"
+- To deploy the website I used [Heroku](https://dashboard.heroku.com/)
+- To handle payments I used [Stripe](https://stripe.com/gb)
 ## Credits
