@@ -11,6 +11,7 @@ import stripe
 import os
 from basket.views import modify, clear, remove
 
+
 class checkout(LoginRequiredMixin, View):
     def get(self, request):
         if request.session.get('basket', False):
@@ -26,17 +27,27 @@ class checkout(LoginRequiredMixin, View):
 
                 if book.stock == 0 or not book.available:
                     status = False
-                    messages.warning(request, f'"{book.name}" is not available')
+                    messages.warning(
+                        request,
+                        f'"{book.name}" is not available'
+                    )
                     remove_list.append(int(bookid))
                     continue
                 elif book.stock - quantity <= 0:
-                    messages.warning(request, f'Not enough of "{book.name}" in stock, only {book.stock} has been kept in basket')
+                    messages.warning(
+                        request,
+                        (
+                            f'Not enough of "{book.name}" in stock, only '
+                            f'{book.stock} has been kept in basket'
+                        )
+                    )
                     modify(request, bookid, -(quantity - book.stock))
                     quantity = book.stock
                 else:
                     status = True
 
-                price = (float(book.price) * (1 - book.discountPercent/100)) * quantity
+                price = (float(book.price) * (1 - book.discountPercent/100))
+                price = price * quantity
                 template_basket.append(
                     [
                         book.name,
@@ -51,14 +62,15 @@ class checkout(LoginRequiredMixin, View):
             for item in remove_list:
                 remove(request, item)
 
-            if len([h for h in template_basket if not h[5]]) == len(template_basket):
+            if (len([h for h in template_basket if not h[5]]) ==
+                    len(template_basket)):
                 return render(
                     request,
                     'checkout/checkout.html',
                     {
                         'template_basket': []
                     }
-                )   
+                )
 
             form = forms.OrderForm({'order_id': 0})
 
@@ -69,7 +81,7 @@ class checkout(LoginRequiredMixin, View):
                     'template_basket': template_basket,
                     'form': form
                 }
-            )            
+            )
 
         else:
             basket = {}
@@ -79,7 +91,7 @@ class checkout(LoginRequiredMixin, View):
                 {
                     'template_basket': []
                 }
-            )   
+            )
 
     def post(self, request):
         form = forms.OrderForm(request.POST)
@@ -122,7 +134,10 @@ class checkout_payment(LoginRequiredMixin, View):
             obj.save()
 
         else:
-            messages.error(request, 'Cant make a payment to a empty cart, how did you get here?')
+            messages.error(
+                request,
+                'Cant make a payment to a empty cart, how did you get here?'
+            )
             return redirect('index_bookstore')
 
         return render(
@@ -140,7 +155,9 @@ class checkout_payment(LoginRequiredMixin, View):
 class success(LoginRequiredMixin, View):
     def get(self, request):
         basket = request.session['basket']
-        om = chm.Order.objects.get(payment_intent=request.GET.get('payment_intent'))
+        om = chm.Order.objects.get(
+            payment_intent=request.GET.get('payment_intent')
+        )
 
         body = ''
         for bookid, quantity in basket.items():

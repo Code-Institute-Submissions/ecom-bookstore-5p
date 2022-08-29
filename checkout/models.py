@@ -18,6 +18,7 @@ class Order(models.Model):
 
     payment_intent = models.CharField(max_length=500, null=True)
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
