@@ -173,7 +173,7 @@ class success(LoginRequiredMixin, View):
             basket_item.save()
             body += (
                 f'{basket_item.book} ' +
-                f', {basket_item.priceOnPurchase}' +
+                f', £{basket_item.priceOnPurchase}' +
                 f' - x{basket_item.quantity}\n'
             )
 
