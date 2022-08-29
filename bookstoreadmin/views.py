@@ -11,13 +11,14 @@ import cloudinary
 
 PREFIX = 'bookstoreadmin/'
 
-#region helpers
+
+# region helpers
 def check_admin(logged_user):
     return logged_user.is_superuser or Group.objects.filter(
             user=logged_user,
             name='site_admin'
         ).exists()
-#endregion
+# endregion
 
 
 class index(PermissionRequiredMixin, View):
@@ -29,7 +30,7 @@ class index(PermissionRequiredMixin, View):
         return redirect('books_index')
 
 
-#region books
+# region books
 class list_books(PermissionRequiredMixin, View):
     permission_required = 'books.view_book'
 
@@ -154,10 +155,10 @@ class modify_book_genres(PermissionRequiredMixin, View):
         genres = bkm.Genre.objects.all()
         db_data = list(
             bkm
-                .BookGenre
-                .objects
-                .filter(book=book_id)
-                .values_list('genre__name', flat=True)
+            .BookGenre
+            .objects
+            .filter(book=book_id)
+            .values_list('genre__name', flat=True)
         )
 
         for _name in data:
@@ -166,17 +167,17 @@ class modify_book_genres(PermissionRequiredMixin, View):
                 model.book = _book
                 model.genre = genres.get(name=_name)
                 model.save()
-            
+
         for name in db_data:
             if name not in data:
                 value = bkm.BookGenre.objects.get(book=_book, genre__name=name)
                 value.delete()
-            
 
         return redirect('admin_index')
-#endregion
+# endregion
 
-#region genres
+
+# region genres
 class list_genres(PermissionRequiredMixin, View):
     permission_required = 'books.view_genre'
 
@@ -242,4 +243,4 @@ def delete_genre(request, genre_id):
     data = bkm.Genre.objects.get(id=genre_id)
     data.delete()
     return redirect('list_genres_admin')
-#endregion
+# endregion
