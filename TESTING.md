@@ -81,15 +81,33 @@ Used [w3schools](https://jigsaw.w3.org/css-validator/) to validate my css files.
 
 [404.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2F404.b8933638c528.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
+![](documentation/testing/validation/css/404.png)
+
+
 [base.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fbase.ab6825621926.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+![](documentation/testing/validation/css/base.png)
+
 
 [login.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Flogin.429c974df45f.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
+![](documentation/testing/validation/css/login.png)
+
+
 [modal.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fmodal.379f42c59d9b.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+![](documentation/testing/validation/css/modal.png)
+
 
 [results.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fresults.02d627fe6016.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
+![](documentation/testing/validation/css/results.png)
+
+
 [view_book.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fres.cloudinary.com%2Fdf6z9chzs%2Fraw%2Fupload%2Fv1%2Fstatic%2Fcss%2Fview_book.da406adcef4e.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+![](documentation/testing/validation/css/view_book.png)
+
 
 ## jscript
 Used [jshint](https://jshint.com/) to validate my javascript files
