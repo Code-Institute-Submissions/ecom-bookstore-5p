@@ -45,6 +45,7 @@ class write_newsletter(View):
                             subject=form.cleaned_data['subject'],
                             body=(
                                 form.cleaned_data['body'] +
+                                '\n Click below to stop receiving newsletters. \n' +
                                 f'\n{current_site.domain}/'
                                 f'cancel_newsletter/{e.id}'
                             ),
