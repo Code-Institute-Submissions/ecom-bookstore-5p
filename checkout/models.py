@@ -11,7 +11,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=30, null=True)
     second_name = models.CharField(max_length=30, null=True)
     email = models.EmailField(blank=False, null=True)
-    country = CountryField(null=True)
+    country = CountryField()
     postcode = models.CharField(max_length=10, null=True)
     address_line_one = models.CharField(max_length=200, null=True)
     town_city = models.CharField(max_length=200, null=True)

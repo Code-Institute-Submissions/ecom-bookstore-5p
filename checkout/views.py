@@ -3,6 +3,7 @@ from django.views import View
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import EmailMessage
 import checkout.forms as forms
 import books.models as bkm
 import checkout.models as chm
@@ -60,7 +61,7 @@ class checkout(LoginRequiredMixin, View):
                 )   
 
             form = forms.OrderForm({'order_id': 0})
-            # form.order_id = om.id
+
             return render(
                 request,
                 'checkout/checkout.html',
@@ -101,7 +102,7 @@ class checkout(LoginRequiredMixin, View):
                 order_id=data.id
             )
 
-        messsages.error(request, 'An unknown problem has occurred!')
+        messages.error(request, 'An unknown problem has occurred!')
         return redirect('index_bookstore')
 
 
@@ -121,7 +122,7 @@ class checkout_payment(LoginRequiredMixin, View):
             obj.save()
 
         else:
-            messsages.error(request, 'Cant make a payment to a empty cart, how did you get here?')
+            messages.error(request, 'Cant make a payment to a empty cart, how did you get here?')
             return redirect('index_bookstore')
 
         return render(
