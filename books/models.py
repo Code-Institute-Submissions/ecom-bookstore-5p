@@ -30,6 +30,9 @@ class Book(models.Model):
     discountPercent = IntegerRangeField(min_value=0, max_value=100)
     available = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=50)
