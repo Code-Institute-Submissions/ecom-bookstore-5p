@@ -112,20 +112,30 @@ class view_book(View):
 
         if form.is_valid():
             new = BookNotify()
-            new.book = bkm.Book.objects.get(id=book_id)    
-                
-            if not BookNotify.objects.filter(email=form.cleaned_data['email']).exists():
-                    new.email = form.cleaned_data['email']
-            elif not BookNotify.objects.filter(email=request.user.email).exists():
+            new.book = bkm.Book.objects.get(id=book_id)
+
+            if (not BookNotify
+                    .objects
+                    .filter(email=form.cleaned_data['email']).exists()):
+                new.email = form.cleaned_data['email']
+            elif (not BookNotify
+                    .objects
+                    .filter(email=request.user.email).exists()):
                 if request.user.is_authenticated:
                     new.email = request.user.email
                 else:
                     messages.error(request, 'You are not logged in!')
             else:
-                messages.warning(request, 'You Have Already Put A Watch On This Book!')
+                messages.warning(
+                    request,
+                    'You Have Already Put A Watch On This Book!'
+                )
                 return HttpResponseRedirect(self.request.path_info)
 
-            messages.success(request, 'You Will Be Notified When The Book Updates!')
-            new.save()            
+            messages.success(
+                request,
+                'You Will Be Notified When The Book Updates!'
+            )
+            new.save()
             return HttpResponseRedirect(self.request.path_info)
         return HttpResponseRedirect(self.request.path_info)
